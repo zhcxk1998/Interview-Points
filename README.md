@@ -1,8 +1,100 @@
 # Interview-Points
-这是一个用来存放面试知识点的整理记录
+这是从各个论坛博客的文章中得来的，自己稍加改造一下整理的一些面试知识点:computer:
 
-[toc]
+# 目录
+<!-- TOC -->
 
+- [Interview-Points](#interview-points)
+- [目录](#目录)
+- [1. 模拟new的过程](#1-模拟new的过程)
+- [2. 函数防抖和节流](#2-函数防抖和节流)
+- [3. 输入url到展示的过程](#3-输入url到展示的过程)
+- [4. 函数的柯里化](#4-函数的柯里化)
+- [5. 重绘与回流](#5-重绘与回流)
+  - [1. 重绘](#1-重绘)
+  - [2. 回流](#2-回流)
+  - [如何避免重绘和回流](#如何避免重绘和回流)
+- [6. 浏览器存储](#6-浏览器存储)
+- [7. 网络请求方式](#7-网络请求方式)
+- [8. TCP三次握手](#8-tcp三次握手)
+- [9. TCP四次挥手](#9-tcp四次挥手)
+- [10. 内存泄漏](#10-内存泄漏)
+- [11. 类继承的特点](#11-类继承的特点)
+- [12. 常用正则表达式](#12-常用正则表达式)
+- [13. 跨域](#13-跨域)
+  - [跨域行为](#跨域行为)
+  - [CORS跨域](#cors跨域)
+  - [简单请求](#简单请求)
+  - [非简单请求](#非简单请求)
+  - [CORS 与 JSONP的对比](#cors-与-jsonp的对比)
+- [14. 缓存](#14-缓存)
+  - [强缓存](#强缓存)
+  - [协商缓存](#协商缓存)
+  - [缓存场景](#缓存场景)
+- [15. 手写call、apply、bind](#15-手写callapplybind)
+- [16. 伪类和伪元素的区别](#16-伪类和伪元素的区别)
+  - [伪类](#伪类)
+  - [伪元素](#伪元素)
+  - [区别](#区别)
+- [17. 绝对定位](#17-绝对定位)
+- [18. window.onload,doument.onload的区别](#18-windowonloaddoumentonload的区别)
+- [19. 事件委托](#19-事件委托)
+  - [事件冒泡](#事件冒泡)
+  - [事件委托的优点](#事件委托的优点)
+- [20. instanceof的的实现原理](#20-instanceof的的实现原理)
+- [21. 继承](#21-继承)
+- [22. for...in 和 for...of](#22-forin-和-forof)
+- [23. 数组扁平化](#23-数组扁平化)
+- [24. 前端性能优化](#24-前端性能优化)
+- [25. js实现动画](#25-js实现动画)
+- [26. 实现autocomplete属性](#26-实现autocomplete属性)
+- [27. 代码实现深拷贝](#27-代码实现深拷贝)
+- [28. 乱序算法](#28-乱序算法)
+- [29. 数组去重](#29-数组去重)
+- [30. React中的key作用](#30-react中的key作用)
+  - [概述](#概述)
+  - [反模式](#反模式)
+  - [总结](#总结)
+- [31. React系列](#31-react系列)
+  - [组件的render函数在何时被调用](#组件的render函数在何时被调用)
+  - [组件的生命周期](#组件的生命周期)
+  - [Virtual Dom](#virtual-dom)
+  - [setState同步？异步？](#setstate同步异步)
+- [32. React常见面试题](#32-react常见面试题)
+  - [调用setState之后发生了什么](#调用setstate之后发生了什么)
+  - [React中Element和Component的区别](#react中element和component的区别)
+  - [什么情况下你会优先选择使用Class Component而不是Functional Component](#什么情况下你会优先选择使用class-component而不是functional-component)
+  - [React中refs的作用是什么](#react中refs的作用是什么)
+  - [React中keys的作用](#react中keys的作用)
+  - [受控组件与非受控组件的区别](#受控组件与非受控组件的区别)
+  - [在声明周期中哪一步应该发起Ajax请求](#在声明周期中哪一步应该发起ajax请求)
+  - [shouldComponentUpdate的作用是什么，为何他如此重要](#shouldcomponentupdate的作用是什么为何他如此重要)
+  - [React中的事件处理逻辑](#react中的事件处理逻辑)
+  - [createElement和cloneElement的区别是什么](#createelement和cloneelement的区别是什么)
+  - [setState函数的第二个参数的作用是什么](#setstate函数的第二个参数的作用是什么)
+  - [为什么虚拟dom会提高性能](#为什么虚拟dom会提高性能)
+  - [diff算法](#diff算法)
+  - [react性能优化](#react性能优化)
+  - [简述Flux思想](#简述flux思想)
+  - [展示组件（Presentational component）和容器组件（Container component）之间有何不同](#展示组件presentational-component和容器组件container-component之间有何不同)
+  - [组件的状态（state）和属性（props）有何区别](#组件的状态state和属性props有何区别)
+  - [什么是高阶组件](#什么是高阶组件)
+  - [为什么建议setState的参数是一个callback而不是对象](#为什么建议setstate的参数是一个callback而不是对象)
+  - [除了在构造函数绑定this，还有其他办法吗](#除了在构造函数绑定this还有其他办法吗)
+  - [构造函数中为什么要调用super](#构造函数中为什么要调用super)
+  - [React的三种构建组件的方式](#react的三种构建组件的方式)
+- [33. CSRF 和 XSS](#33-csrf-和-xss)
+  - [区别](#区别-1)
+  - [CSRF](#csrf)
+  - [XSS](#xss)
+- [34. localStorage 和 sessionStorage 和 cookie](#34-localstorage-和-sessionstorage-和-cookie)
+  - [localStorage](#localstorage)
+  - [sessionStorage](#sessionstorage)
+  - [cookie](#cookie)
+  - [总结](#总结-1)
+- [35.](#35)
+
+<!-- /TOC -->
 
 # 1. 模拟new的过程
 实现步骤
@@ -897,5 +989,284 @@ const removeDrop = function () {
 }
 ```
 
-# 30. 
+# 30. React中的key作用
+## 概述
+key是用来帮助react识别哪些内容被更改、添加或者删除。key值需要一个稳定值，因为如果key发生了变化，react则会触发UI的重渲染。
+- 唯一性： key值必须唯一，如果出现了相同，会抛出警告，并且只会渲染第一个重复key值的元素。因为react会认为后续拥有相同key值的都是同一个组件。
 
+
+- 不可读性： 虽然在组件定义了key，但是子组件中是无法获取key值的
+
+## 反模式
+现在有一个例子，我们不添加key的情况下，react会自动以索引的形式作为key值
+```
+let arr = ['first', 'second'];
+
+// list1 和 list2 是等价的
+const list1 = arr.map(item => <p>{item}</p>);
+const list2 = arr.map((item, index) => <p key={index}>{item}</p>);
+```
+
+接着我们向数组末尾加一个元素，react经过diff算法之后，key值0和1的元素没有发生改变，所以UI上的操作只是仅仅在末尾添加多一个元素
+
+但是如果在开头添加一个元素
+```
+<!-- before -->
+<p key="0">first</p>
+<p key="1">second</p>
+
+<!-- after -->
+<p key="0">zero</p>
+<p key="1">first</p>
+<p key="2">second</p>
+```
+所以元素的key值都发生了改变，这样每个元素都会重新渲染一次，性能就大大受到影响了
+
+## 总结
+简而言之，改变 key 值来重渲染组件是一种——相较于复杂componentWillReceiveProps生命周期——十分低成本的方式。
+
+# 31. React系列
+## 组件的render函数在何时被调用
+每一次state的更改都会使得render函数被调用，但页面的dom不一定会发生修改
+
+## 组件的生命周期
+1. 初始化阶段（Mounting）
+2. 更新阶段（Updating）
+3. 析构阶段（Unmounting）
+
+
+初始化阶段：
+- constructor(): 用于绑定事件，初始化state
+- componentWillMount(): 组件将要挂载，在render之前调用，每一个组件render之前就调用，一般在这操作state。可以在服务端调用
+- render(): 用作渲染dom
+- componentDidMount(): 在render之后，而且是所有子组件都render之后才调用，通常用于异步请求数据，因为在这里组件都初始化完成了
+
+更新阶段：
+- componentWillReceiveProps(nextProps): 在这里可以拿到即将改变的状态，可以在这里通过setState方法设置state
+- shouldComponentUpdate(nextProps, nextState): 他的返回值决定了接下来的声明周期是否会被调用，默认返回true
+- componentWillUpdate(): 不能在这里改变state，否则会陷入死循环
+- componentDidUpdate(): 和componentDidMount()类似，在这里执行Dom操作以及发起网络请求
+
+析构阶段
+- componentWillUnmount(): 主要执行清除工作，比如取消网络请求，清除事件监听
+
+## Virtual Dom
+难点在于如何判断旧的对象和新的对象之间的差异
+react的办法是只对比同层的节点，而不是跨层对比  
+步骤分为两步：
+- 首先从上至下，从左往右遍历对象，也就是树的深度遍历，这一步会将每一个节点添加索引，便于最后渲染差异
+- 一旦节点有子元素，就去判断子元素是否有不同
+
+Virtual Dom的算法实现主要是三步
+1. 通过js来模拟创建dom对象
+2. 把虚拟dom转换成真实dom插入页面中
+3. 发生变化时候，比较两颗树的差异，生成差异对象
+4. 根据差异对象渲染差异到真实dom
+
+## setState同步？异步？
+1. setState只在合成事件（JSX中的onClick、onChange等）和钩子函数中是**异步**的，在原生事件和setTimeout中都是同步的
+2. setState的“异步”并不是说内部是由异步代码实现的，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，当然也可以用setState第二个参数来获得
+3. setState的批量更新优化是建立在“异步”（合成事件，钩子函数）上的。在原生时间和setTimeout中不会批量更新，在“异步”中如果对一个值多次进行setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新
+
+```
+class App extends React.Component {
+  state = { val: 0 }
+
+  componentDidMount() {
+    this.setState({ val: this.state.val + 1 })
+    console.log(this.state.val)
+
+    this.setState({ val: this.state.val + 1 })
+    console.log(this.state.val)
+
+    setTimeout(_ => {
+      this.setState({ val: this.state.val + 1 })
+      console.log(this.state.val);
+
+      this.setState({ val: this.state.val + 1 })
+      console.log(this.state.val)
+    }, 0)
+  }
+
+  render() {
+    return <div>{this.state.val}</div>
+  }
+}
+```
+因为在钩子函数里面setState是异步的，所以前两次无法获得val的值，所以都输出0，然后到setTimeout的时候，setState已经更新了，而且因为是批量更新所以只执行最后一次，所以到setTimeout的时候，val是1。因为setTimeout中是同步的，所以第一次是2，第二次是3
+
+
+# 32. React常见面试题
+## 调用setState之后发生了什么
+在代码调用setState函数之后，React会将传入的参数对象与组件当前的状态合并，然后触发调和过程（Reconciliation），经过调和过程，React会以相对高效的方式根据新的状态构建React元素树，并且重新渲染整个UI界面。React得到元素树之后，会计算出新树与老树的节点差异，然后根据差异对界面进行最小化的重渲染。在差异算法中，React能够相对精确的知道那些地方发生了改变，这就保证了按需更新，而不是全部重新渲染
+
+## React中Element和Component的区别
+React Element是描述屏幕上可见内容的数据结构，是对于UI的对象表述。而React Component这是可以接受参数输入并且返回某个React Element的函数或者类
+
+## 什么情况下你会优先选择使用Class Component而不是Functional Component
+当组件需要内部状态以及生命周期函数的时候就选择Class Component，否则就是用Functional Component
+
+## React中refs的作用是什么
+Refs是React提供的可以安全访问dom元素或者某个组件实例的句柄，可以为元素添加ref属性然后再回调函数中接受该元素在dom树中的句柄
+
+## React中keys的作用
+keys是React用于追踪列表中哪些元素被修改、添加或者删除的辅助标识，需要保证key的唯一性。React diff算法中，会借助key值来判断元素是新建的还是移动而来的，从而减少不必要的元素重渲染。此外React还需要借助Key值来判断元素与状态的关联关系
+
+## 受控组件与非受控组件的区别
+- 受控组件指那些将表单数据给React统一管理的组件，需要使用setState来更新表单的值
+```
+this.state = {
+    value: ''
+}
+
+...
+
+handleChange = (e) => {
+    this.setState({
+        value: e.target.value
+    })
+}
+
+...
+
+<input onChange={() => this.handleChange} />
+```
+
+- 非受控组件就是由dom来存放表单数据，我们可以使用refs来操控dom元素
+```
+handleChange = () => {
+    console.log(this.input.value)
+}
+
+...
+
+<input refs={(input) => this.input = input}
+    onChange={() => this.handleChange} />
+```
+
+尽管非受控组件比较容易实现，但是我们有时候会需要对数据进行处理，使用受控组件会更加容易
+
+## 在声明周期中哪一步应该发起Ajax请求
+应该放在`componentDidMount()`
+
+- Fiber调和算法会影响到compnentWillMount的触发次数，如果放在里面，可能会发起多次Ajax请求
+- 如果放在其他生命周期中，假设我们获取了Ajax请求的结果，并且添加到组件的状态中，未挂载的组件就会报错。而在`componentDidMount`中就不会有这些问题了
+
+## shouldComponentUpdate的作用是什么，为何他如此重要
+shouldComponentUpdate允许我们手动的判断组件是否更新，就可以避免不必要的更新渲染
+
+## React中的事件处理逻辑
+为了解决跨浏览器兼容性的问题，React会将浏览器原生事件封装为合成事件传入设置的事件处理器中。合成事件与原生时间采用相同的接口，不过他们屏蔽了底层浏览器的细节差异，保证了行为的一致性。
+
+## createElement和cloneElement的区别是什么
+createElement函数是JSX编译之后使用的创建Element的函数，而cloneElement这是复制某个元素并传入新的Props
+
+## setState函数的第二个参数的作用是什么
+是一个回调函数，这个函数会在setState函数调用完成并且组件开始重渲染的时候被调用，我们可以通过这个函数来判断更新渲染是否完成
+
+## 为什么虚拟dom会提高性能
+虚拟dom相当于在js和真实dom中间加了一个缓存，利用dom diff算法避免了没有必要的dom操作，从而提高性能
+具体步骤如下：
+1. 使用js来模拟创建一个dom
+2. 将这个虚拟dom构建真实dom，插入到页面中
+3. 状态变更时，比较两颗对象树的差异，生成差异对象
+4. 根据差异对象进行更新
+
+## diff算法
+- 把树形结构按照层次分解，只比较同级元素  
+- 为列表结构的每一个元素都添加唯一的key属性，方便比较
+- 如果是同一类型的组件，则按照tree diff一样遍历
+- 如果不是同一类，则该组件判断为dirty component，从而替换整个组件下的所有子节点，就不用花时间来比较差异了
+- 合并操作，调用setState的时候会将组件标记为dirty，到一个事件循环结束，React检查所有标记dirty的component重新绘制。这样dom只会被更新一次，节约性能
+- 选择性子树渲染，利用shouldComponentUpdate来提高diff性能
+
+## react性能优化
+- 利用shouldComponentUpdate来避免不必要的dom操作
+- 使用key来帮助React识别列表子组件的最小变化
+
+## 简述Flux思想
+Flux最大的特点就是，**数据单向流动**
+1. 用户访问View
+2. View发出用户的Action
+3. Dispatcher收到Action，要求Store进行相应的更新
+4. Store更新后，发出一个“change”事件
+5. View收到“change”事件后，更新页面
+
+## 展示组件（Presentational component）和容器组件（Container component）之间有何不同
+- 展示组件关心组件看起来是什么，专门通过props来接收数据和回调，一般不会有自己的状态
+- 容器组件关心组件如何运作，容器组件会为展示组件或者其他容器组件提供数据和行为，一般拥有自己的状态，因为他是其他组件的数据源
+
+## 组件的状态（state）和属性（props）有何区别
+- state是一种数据结构，用于组件挂载时所需的数据默认值。一般由用户事件行为改变state
+- props是组件的配置，由父组件传给子组件，props不可改变。
+
+## 什么是高阶组件
+高阶组件是一个以组件为参数并返回一个新组建的函数。HOC运行重用代码、逻辑和引导抽象。最常见是Redux的connect函数。HOC最好的方式是分享组件之间的行为。如果发现一个地方大量代码用来做一件事情，可以考虑重构为HOC
+
+## 为什么建议setState的参数是一个callback而不是对象
+因为state和props的更新可能是异步的，不能依赖他们去计算下一个state
+
+## 除了在构造函数绑定this，还有其他办法吗
+在回调中可以使用箭头函数，但是问题就是每次渲染都会创建一个新的回调
+
+## 构造函数中为什么要调用super
+因为`super()`被调用之前，子类是不可以使用this的
+
+## React的三种构建组件的方式
+React.createClass、ES6 class、无状态函数
+
+# 33. CSRF 和 XSS
+## 区别
+- CSRF需要登录之后操作，XSS不需要
+- CSRF是请求页面api来实现非法操作，XSS是向当前页面植入js脚本来修改页面内容
+
+## CSRF
+跨站点伪造请求  
+用户在一个网站登录之后，产生一个cookie，此时若打开了一个新的网址，此网址返回了一些恶意的请求，就属于CSRF攻击
+
+- 预防
+1. 验证http reference
+2. 请求地址中添加token验证
+3. 请求头中添加token验证
+
+## XSS
+跨站脚本攻击，一般是通过web页面插入恶意js代码来攻击。
+主要分为三类：
+1. 反射性: xss代码在请求url中攻击
+2. 存储型: 将攻击脚本存入服务端，从而传播
+3. dom型: 通过dom修改页面内容
+
+- 预防
+1. 输入过滤: 例如过滤`<script>`等
+2. 输出转义: 例如将`<`,`>`,`/`等字符利用转义符号转换一下
+3. 使用httponly: 让js脚本无法访问cookie
+4. 尽量使用post方法，使用get的时候限制一下长度
+
+
+# 34. localStorage 和 sessionStorage 和 cookie
+## localStorage
+生命周期是永久，只能存字符串类型
+
+## sessionStorage
+生命周期为，当前窗口或标签页未被关闭，一旦关闭则存储的数据全部清空
+
+## cookie
+cookie生命周期在过期时间之前都有效
+
+cookie的属性
+- name: 必须，定义cookie的名称
+- value: 必须，指定cookie的值
+- expires: 指定过期时间，采用UTC或GMT格式，如果不设置cookie只会在当前会话（session）有效，浏览器窗口关闭cookie就会删除
+- domain: 指定cookie所在域名，默认为设定cookie时候的域名，所指定的域名必须是当前发送cookie的一部分，只有访问的域名匹配domain属性，cookie才会发送
+- path: 指定路径，必须是绝对路径，默认为请求该cookie的网页路径，只有path属性匹配向服务器发送的路径，cookie才会发送，只要path属性匹配发送路径的一部分就可以了，例如`path=/blog`，发送的路径是`/blogroll`也可以。path属性生效的前提是domain属性匹配
+- secure: 指定cookie只能在加密协议https下发送到服务器，如果通信是https协议，自动打开
+- max-age: 用来指定cookie有效期，max-age优先级高于expires
+- httponly: httponly属性用于设置该cookie不能被JavaScript访问，主要是为了防止xss工具盗取cookie
+
+
+## 总结
+- 不同浏览器无法共享localStorage和sessionStorage
+- 相同浏览器不同页面之间可以共享相同的localStorage（页面属于相同域名和端口）
+- 相同浏览器不同标签页中无法共享sessionStorage的信息
+
+# 35. 
