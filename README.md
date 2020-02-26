@@ -2,6 +2,7 @@
 这是从各个论坛博客的文章中得来的，自己稍加改造一下整理的一些面试知识点:computer:
 
 # 目录
+
 <!-- TOC -->
 
 - [Interview-Points](#interview-points)
@@ -23,6 +24,7 @@
 - [12. 常用正则表达式](#12-常用正则表达式)
 - [13. 跨域](#13-跨域)
   - [跨域行为](#跨域行为)
+  - [JSONP](#jsonp)
   - [CORS跨域](#cors跨域)
   - [简单请求](#简单请求)
   - [非简单请求](#非简单请求)
@@ -74,6 +76,7 @@
   - [setState函数的第二个参数的作用是什么](#setstate函数的第二个参数的作用是什么)
   - [为什么虚拟dom会提高性能](#为什么虚拟dom会提高性能)
   - [diff算法](#diff算法)
+  - [diff算法的三种优化策略](#diff算法的三种优化策略)
   - [react性能优化](#react性能优化)
   - [简述Flux思想](#简述flux思想)
   - [展示组件（Presentational component）和容器组件（Container component）之间有何不同](#展示组件presentational-component和容器组件container-component之间有何不同)
@@ -83,18 +86,112 @@
   - [除了在构造函数绑定this，还有其他办法吗](#除了在构造函数绑定this还有其他办法吗)
   - [构造函数中为什么要调用super](#构造函数中为什么要调用super)
   - [React的三种构建组件的方式](#react的三种构建组件的方式)
+  - [useEffect和useLayoutEffect的区别](#useeffect和uselayouteffect的区别)
+  - [实现 useState 和 useEffect](#实现-usestate-和-useeffect)
+  - [React新特性](#react新特性)
+  - [React 状态提升](#react-状态提升)
+  - [高阶函数](#高阶函数)
+    - [属性代理](#属性代理)
+    - [反向继承](#反向继承)
+  - [HOC存在的问题](#hoc存在的问题)
+  - [HOC约定](#hoc约定)
+  - [应用场景](#应用场景)
 - [33. CSRF 和 XSS](#33-csrf-和-xss)
   - [区别](#区别-1)
   - [CSRF](#csrf)
   - [XSS](#xss)
+  - [总结](#总结-1)
 - [34. localStorage 和 sessionStorage 和 cookie](#34-localstorage-和-sessionstorage-和-cookie)
   - [localStorage](#localstorage)
   - [sessionStorage](#sessionstorage)
   - [cookie](#cookie)
-  - [总结](#总结-1)
-- [35.](#35)
+  - [总结](#总结-2)
+- [35. BFC 及其作用](#35-bfc-及其作用)
+- [36. 实现 (5).add(3).minus(2) 功能](#36-实现-5add3minus2-功能)
+- [37. 连续赋值](#37-连续赋值)
+- [38. display: none, visibility: hidden 和 opacity: 0](#38-display-none-visibility-hidden-和-opacity-0)
+- [39. for 和 forEach 的性能](#39-for-和-foreach-的性能)
+- [40. react-router的`<Link>` 和 `<a>` 有何区别](#40-react-router的link-和-a-有何区别)
+- [41. 执行上下文](#41-执行上下文)
+- [42. 执行栈](#42-执行栈)
+- [43. 创建执行上下文](#43-创建执行上下文)
+  - [创建阶段](#创建阶段)
+    - [this绑定](#this绑定)
+    - [词法环境](#词法环境)
+    - [变量环境](#变量环境)
+- [44. 事件循环](#44-事件循环)
+- [45. link 与 @import](#45-link-与-import)
+- [46. 外边距重叠](#46-外边距重叠)
+- [47. 渐进增强 和 优雅改进](#47-渐进增强-和-优雅改进)
+- [48. 立即执行函数](#48-立即执行函数)
+- [49. HTTP2.0 与 HTTP1.1](#49-http20-与-http11)
+  - [HTTP2.0](#http20)
+  - [HTTP1.1](#http11)
+- [50. css动画与js动画的区别](#50-css动画与js动画的区别)
+- [51. offset、client和scroll的属性](#51-offsetclient和scroll的属性)
+- [52. 手撕代码题](#52-手撕代码题)
+- [53. 行内元素的margin 和 padding](#53-行内元素的margin-和-padding)
+- [54. 行内元素和块级元素](#54-行内元素和块级元素)
+- [55. margin、padding和translate百分比是按照什么计算的](#55-marginpadding和translate百分比是按照什么计算的)
+- [56. display: inline-block元素之间有间隙](#56-display-inline-block元素之间有间隙)
+- [57. HTTPS原理](#57-https原理)
+  - [加密过程](#加密过程)
+  - [对称加密和非对称加密](#对称加密和非对称加密)
+  - [数字证书和数字签名](#数字证书和数字签名)
+  - [握手过程](#握手过程)
+  - [使用](#使用)
+- [58. setImmediate() 和 process.nextTick()](#58-setimmediate-和-processnexttick)
+- [59. 浏览器和node的事件循环](#59-浏览器和node的事件循环)
+  - [Node环境下](#node环境下)
+  - [区别](#区别-2)
+  - [总结](#总结-3)
+- [60. React Fiber](#60-react-fiber)
+  - [Scheduler](#scheduler)
+  - [Fiber数据结构](#fiber数据结构)
+  - [任务拆分](#任务拆分)
+  - [任务暂停](#任务暂停)
+  - [优先级](#优先级)
+- [61. webpack流程](#61-webpack流程)
+- [62. webpack的热更新](#62-webpack的热更新)
+- [63. CommonJs 与 ES6模块化区别](#63-commonjs-与-es6模块化区别)
+- [64. 箭头函数和普通函数](#64-箭头函数和普通函数)
+- [65. node读取文件转换为buffer](#65-node读取文件转换为buffer)
+- [66. sort函数](#66-sort函数)
+- [67. 闭包 和 自执行函数](#67-闭包-和-自执行函数)
+  - [闭包](#闭包)
+  - [自执行函数](#自执行函数)
+  - [区别](#区别-3)
+- [68. 0.1 + 0.2 ！== 0.3](#68-01--02--03)
+- [69. React服务端渲染](#69-react服务端渲染)
+  - [优点](#优点)
+  - [弊端](#弊端)
+- [70. 前端路由的原理](#70-前端路由的原理)
+- [71. Mobx原理](#71-mobx原理)
+  - [工作原理](#工作原理)
+  - [设计原则](#设计原则)
+- [72. Object.create()实现原理](#72-objectcreate实现原理)
+- [73. 事件穿透](#73-事件穿透)
+- [74. 常见http状态码](#74-常见http状态码)
+- [75. js、css阻塞](#75-jscss阻塞)
+  - [内嵌和外部js](#内嵌和外部js)
+  - [css](#css)
+- [76. 隐式转换](#76-隐式转换)
+- [77. React首屏优化](#77-react首屏优化)
+- [78. Object.assign](#78-objectassign)
+- [79. innerHtml 和 outerHtml](#79-innerhtml-和-outerhtml)
+- [80. rem 和 em](#80-rem-和-em)
+- [81. 垃圾回收机制 和 内存泄漏](#81-垃圾回收机制-和-内存泄漏)
+  - [垃圾回收](#垃圾回收)
+  - [内存泄漏](#内存泄漏)
+  - [优化](#优化)
+- [82. 手写Promise.all](#82-手写promiseall)
+- [83. post的方法](#83-post的方法)
+- [84. http options预检请求](#84-http-options预检请求)
+- [85. oop三大特点](#85-oop三大特点)
+- [86.](#86)
 
 <!-- /TOC -->
+
 
 # 1. 模拟new的过程
 实现步骤
@@ -435,6 +532,19 @@ class Labrador extends Dog {
 - 同源策略限制、安全性考虑（如cookies）
 - 协议、IP地址和端口不同都是跨域行为
 
+## JSONP
+```javascript
+const script = document.createElement('script')
+script.type = 'text/javascript'
+
+script.src = 'xxx.com/login?user=xxx&password=123&callback=onBack'
+document.head.appendChild(script)
+
+function onBack(res) {
+    console.log(res)
+}
+```
+
 ## CORS跨域
 > CORS (Cross-Orgin Resources Share)跨域资源共享，允许浏览器向服务器发出XMLHttpRequest请求，从而克服跨域问题，他需要浏览器与服务器同时支持  
 
@@ -465,7 +575,7 @@ Http的请求头信息不超过以下几种字段：
 - 请求方法为`PUT`和`DELETE`
 - `Content-Type`为`application/json`
 
-非简单请求会在正式通信之前，增加一次HTTP查询请求，成为预检请求
+非简单请求会在正式通信之前，增加一次HTTP查询请求，称为预检请求，就是`options`啦
 
 - `Access-Control-Request-Methor`：此字段必须有，用来表示浏览器的CORS请求会用到哪些HTTP方法，例如`PUT`
 - `Access-Control-Request-Headers`：此字段是一个逗号分隔的字符串，指定浏览器CORS请求会额外发送的请求头信息
@@ -670,6 +780,40 @@ if(x.__proto__ === null){
 判断x对象是否为y的一个实例，会在原型链上一直找，找到则返回true
 
 # 21. 继承
+- 原型继承
+```javascript
+Student.prototype = new Person('b')
+Student.prototype.constructor = Student
+```
+缺点：
+1. 子类型无法超类型传递参数
+2. 子类的方法必须写在`new Person`后面，不然会被覆盖
+
+- 类式继承
+```
+function Child(name, parentName) {
+    Parent.call(this, parentName);
+    this.name = name;
+}
+```
+缺点：
+1. 没有原型，每次创建都会执行Parent.call
+
+- 组合继承
+```
+function Child(name, parentName) {
+    Parent.call(this, parentName);
+    this.name = name;
+}
+
+Child.prototype = new Parent();      
+Child.prototype.constructor = Child;
+```
+缺点：
+1. 父类构造函数会被调用两次
+
+
+- 寄生组合
 ```javascript
 function Person(name) {
   this.name = name
@@ -1156,7 +1300,11 @@ handleChange = () => {
 shouldComponentUpdate允许我们手动的判断组件是否更新，就可以避免不必要的更新渲染
 
 ## React中的事件处理逻辑
-为了解决跨浏览器兼容性的问题，React会将浏览器原生事件封装为合成事件传入设置的事件处理器中。合成事件与原生时间采用相同的接口，不过他们屏蔽了底层浏览器的细节差异，保证了行为的一致性。
+为了解决跨浏览器兼容性的问题，React会将浏览器原生事件封装为合成事件传入设置的事件处理器中。合成事件与原生时间采用相同的接口，不过他们屏蔽了底层浏览器的细节差异，保证了行为的一致性。React没有将事件依附在子元素上，而是将所有事件发送到顶层 `document` 进行处理
+
+JSX上面的事件全部绑定在 `document` 上，不仅减少了内存消耗，而且组件销毁的时候可以统一移除事件
+
+如果我们不想事件冒泡的话，应该是调用`event.preventDefault`，而不是传统的`event.stopPropagation`
 
 ## createElement和cloneElement的区别是什么
 createElement函数是JSX编译之后使用的创建Element的函数，而cloneElement这是复制某个元素并传入新的Props
@@ -1179,6 +1327,23 @@ createElement函数是JSX编译之后使用的创建Element的函数，而cloneE
 - 如果不是同一类，则该组件判断为dirty component，从而替换整个组件下的所有子节点，就不用花时间来比较差异了
 - 合并操作，调用setState的时候会将组件标记为dirty，到一个事件循环结束，React检查所有标记dirty的component重新绘制。这样dom只会被更新一次，节约性能
 - 选择性子树渲染，利用shouldComponentUpdate来提高diff性能
+
+## diff算法的三种优化策略
+1. 树的优化策略
+- 层级控制，diff树同层只比较同一层次的节点
+- 如果某个节点不存在，则这个节点直接删除
+- 跨层级比较会进行相应的创建或者删除
+
+2. 组件的优化策略
+- 是否为同一类型，有则使用tree diff
+- 不是同一类型，则判断为dirty component。从而替换掉整个组件下的子节点
+- 对于同一类型的组件，可以使用shouldComponentUpdate来手动终止diff算法，加快渲染速度
+
+3. 元素的优化策略
+- 插入，全新的节点需要执行插入操作
+- 移动，节点本身存在，需要进行移动
+- 删除，结构相同内容不同，无需直接复用，需要删除重建
+- 基于唯一标记key来进行计算，快速定位
 
 ## react性能优化
 - 利用shouldComponentUpdate来避免不必要的dom操作
@@ -1215,6 +1380,385 @@ Flux最大的特点就是，**数据单向流动**
 ## React的三种构建组件的方式
 React.createClass、ES6 class、无状态函数
 
+## useEffect和useLayoutEffect的区别
+调用时间不同
+- useEffect是在组件渲染完之后执行
+- useLayoutEffect是在组件渲染前就执行
+
+useLayoutEffect比useEffect先执行
+
+## 实现 useState 和 useEffect
+> React是使用类似单链表的形式来代替数组，通过next按顺序串联所有hook
+
+useEffect特点：
+1. 两个参数：一个回调函数，一个依赖数组
+2. 如果依赖数组不存在，则callback每次render都触发
+3. 如果依赖数组存在，只有他发生改变的时候才执行callback
+
+![image](https://pic4.zhimg.com/80/v2-ed25525d8a2985c3fd6d599050df5a83_hd.jpg)
+
+```javascript
+let arr = [] // 一个数组，存储每一个hook
+let index = 0 // 下标，存取每个hook对应的位置
+
+function useState(init){
+    arr[index] = arr[index] || init // 如果存在则用之前的值
+    const cur = index // 设置一个变量存储当前下标
+    
+    function setState(newState){
+        arr[cur] = newState
+        render() // 渲染，页面触发更新
+    }
+    
+    return [arr[index++], setState]
+}
+
+function useEffect(callback, deps){
+    const hasNoDeps = !deps // 如果没有依赖，则直接每次更新
+    const lastDeps = arr[index] // 获取上一次的依赖数组
+    const hasChangeDeps = lastDeps
+      ? !deps.every((e, i) => e === lastDeps[i]) // 如果每一项都相同
+      : true
+    if(hasNoDeps || hasChangeDeps){
+        callback()
+        arr[index] = deps
+    }
+    index++
+}
+```
+
+## React新特性
+1. Lazy 和 Supense
+```
+import React, {Component, lazy, Suspense} from 'react'
+
+const About = lazy(() => import(/*webpackChunkName: "about" */'./About.jsx'))
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        // 我们需要用suspense来进行过渡，显示一个loading
+        <Suspense fallback={<div>Loading...</div>}>
+          <About></About>
+        </Suspense>
+        
+        // 这样子是不行的，因为还没有加载完成不知道显示什么
+        <!--<About></About>-->
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+
+2. 错误边界（Error boundaries）
+```
+class App extends Component {
+  state = {
+    hasError: false,
+  }
+  static getDerivedStateFromError(e) {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return <div>error</div>
+    }
+    return (
+      <div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <About></About>
+        </Suspense>
+      </div>
+    );
+  }
+}
+```
+
+3. React.memo
+React.memo适用于函数组件，不适用于class组件
+
+与`pureComponent`类似，但是`pureComponent`提供的`shouldComponentUpdate`只是对比传入的props本身有没有变化，如果内部的值变了，他也不会更新。例如
+```
+class Foo extends PureComponent {
+  render () {
+    console.log('Foo render');
+    return <div>{this.props.person.age}</div>;
+  }
+}
+
+person: {
+  count: 0,
+  age: 1
+}
+
+// person.age++, 本来应该触发更新，但是不会因为props的第一级没有发生变化
+```
+
+这时候我们可以用memo来优化一下
+```
+const Foo = memo(function Foo (props) {
+  console.log('Foo render');
+  return <div>{props.person.age}</div>;
+})
+```
+memo的第一个参数是函数组件，第二个是与`shouldComponentUpdate类似`是一个函数
+```
+(nextProps, nextState)=>{
+    
+}
+```
+
+4. hook的优势
+- 函数组件没有this的问题
+- 自定义hook方便复用状态逻辑
+- 副作用关注点分离
+
+
+## React 状态提升
+常见于子组件的数据存在父组件中
+```
+// 父组件
+class AllInput extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { content: '' }
+        this.handleContentChange = this.handleContentChange.bind(this)
+    }
+    handleContentChange(newContent) {
+        this.setState({ content: newContent })
+    }
+    
+    render() {
+        return (
+            <div>
+                <Input content={ this.state.content } onContentChange={ this.handleContentChange }/>
+                <br /><br />
+                <Input content={ this.state.content } onContentChange={ this.handleContentChange }/>
+            </div>
+        )
+    }
+}
+
+
+// 子组件
+class Input extends React.Component {
+    constructor(props) {
+        super(props)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleChange(e) { 
+        setState（修改数据的方法）
+        this.props.onContentChange(e.target.value)
+    }
+
+    render() {
+        return (
+            <input type='text' value={ this.props.content } onChange={ this.handleChange } />
+        )
+    }
+}
+```
+
+## 高阶函数
+> 高阶函数就是接受一个或者多个函数然后返回一个函数的东西
+
+主要功能有两个
+### 属性代理
+属性代理有三个常用的作用
+
+- 操作props
+
+```
+function HigherOrderComponent(WrappedComponent) {
+    return class extends React.Component {
+        render() {
+            const newProps = {
+                name: '大板栗',
+                age: 18,
+            };
+            return <WrappedComponent {...this.props} {...newProps} />;
+        }
+    };
+}
+```
+这样子，就可以将自定义的props传给子组件了
+
+- 抽离state
+```
+// 普通组件Login
+import React, { Component } from 'react';
+import formCreate from './form-create';
+
+@formCreate
+export default class Login extends Component {
+  render() {
+    return (
+      <div>
+        <div>
+          <label id="username">
+            账户
+          </label>
+          <input name="username" {...this.props.getField('username')}/>
+        </div>
+        <div>
+          <label id="password">
+            密码
+          </label>
+          <input name="password" {...this.props.getField('password')}/>
+        </div>
+        <div onClick={this.props.handleSubmit}>提交</div>
+        <div>other content</div>
+      </div>
+    )
+  }
+}
+
+//HOC
+import React, { Component } from 'react';
+
+const formCreate = WrappedComponent => class extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      fields: {},
+    }
+  }
+  onChange = key => e => {
+    const { fields } = this.state;
+    fields[key] = e.target.value;
+    this.setState({
+      fields,
+    })
+  }
+  handleSubmit = () => {
+    console.log(this.state.fields);
+  }
+  getField = fieldName => {
+    return {
+      onChange: this.onChange(fieldName),
+    }
+  }
+  render() {
+    const props = {
+      ...this.props,
+      handleSubmit: this.handleSubmit,
+      getField: this.getField,
+    }
+    return (<WrappedComponent
+      {...props}
+    />);
+  }
+};
+export default formCreate;
+```
+例如这样，就可以将输入框的state抽离出来
+
+- 操作refs
+```
+import React, { Component } from 'react';
+
+const refHoc = WrappedComponent => class extends Component {
+
+  componentDidMount() {
+    console.log(this.instanceComponent, 'instanceComponent');
+  }
+
+  render() {
+    return (<WrappedComponent
+      {...this.props}
+      ref={instanceComponent => this.instanceComponent = instanceComponent}
+    />);
+  }
+};
+
+export default refHoc;
+```
+这样就可以获取组件的示例了  
+**不可以再无状态组件（函数类型组件）上使用`refs`，因为无状态组件没有实例**
+
+### 反向继承
+```
+function HigherOrderComponent(WrappedComponent) {
+    return class extends WrappedComponent {
+        render() {
+            return super.render();
+        }
+    };
+}
+```
+反向继承就是一个函数接收一个组件作为参数传入，然后返回一个继承该组件的类，在该类的`render`里面调用`super.render()`
+
+- 可以操作state，但是会难以维护
+- 渲染劫持
+
+渲染劫持我们可以控制组件的render，有条件的展示组件
+例如
+1. 条件渲染
+```
+function withLoading(WrappedComponent) {
+    return class extends WrappedComponent {
+        render() {
+            if(this.props.isLoading) {
+                return <Loading />;
+            } else {
+                return super.render();
+            }
+        }
+    };
+}
+```
+这样就可以按条件来控制组件渲染了
+
+2. 修改render输出
+```
+  //hijack-hoc
+  import React from 'react';
+
+  const hijackRenderHoc = config => WrappedComponent => class extends WrappedComponent {
+    render() {
+      const { style = {} } = config;
+      const elementsTree = super.render();
+      console.log(elementsTree, 'elementsTree');
+      if (config.type === 'add-style') {
+        return <div style={{...style}}>
+          {elementsTree}
+        </div>;
+      }
+      return elementsTree;
+    }
+  };
+
+  export default hijackRenderHoc;
+  
+  //usual
+  @hijackRenderHoc({type: 'add-style', style: { color: 'red'}})
+  class Usual extends Component {
+    ...
+  }
+```
+
+## HOC存在的问题
+- 静态方法丢失
+- refs属性不能透传
+- 反向继承不能保证子组件完整被解析
+
+## HOC约定
+- props保持一致
+- 不能再函数式（无状态）组件中使用refs，因为他没有
+- 不要改变子组件
+- 可以添加包装名便于调试
+- render里不要使用HOC
+
+## 应用场景
+1. 权限控制
+2. 页面复用
+
+
 # 33. CSRF 和 XSS
 ## 区别
 - CSRF需要登录之后操作，XSS不需要
@@ -1242,16 +1786,21 @@ React.createClass、ES6 class、无状态函数
 3. 使用httponly: 让js脚本无法访问cookie
 4. 尽量使用post方法，使用get的时候限制一下长度
 
+## 总结
+- 加入token是为了防止CSRF的而不是XSS
+- CSRF的攻击是因为浏览器自动带上cookie，而不会自带token
 
 # 34. localStorage 和 sessionStorage 和 cookie
 ## localStorage
 生命周期是永久，只能存字符串类型
+- 跨域
+使用iframe与postMessage实现
 
 ## sessionStorage
 生命周期为，当前窗口或标签页未被关闭，一旦关闭则存储的数据全部清空
 
 ## cookie
-cookie生命周期在过期时间之前都有效
+cookie生命周期在过期时间之前都有效，同浏览器下，所有同源窗口之间共享
 
 cookie的属性
 - name: 必须，定义cookie的名称
@@ -1269,4 +1818,813 @@ cookie的属性
 - 相同浏览器不同页面之间可以共享相同的localStorage（页面属于相同域名和端口）
 - 相同浏览器不同标签页中无法共享sessionStorage的信息
 
-# 35. 
+# 35. BFC 及其作用
+BFC就是格式化上下文，相当于一个容器，里面的元素和外部相互不影响，创建的方式有：
+1. html根元素
+2. float浮动
+3. 绝对定位元素position: fixed || absolute
+4. overflow不为visiable
+5. display为table、inline-block、flex
+
+BFC主要的作用是
+1. 清除浮动
+2. 防止同一个BFC中相邻元素间的外边距重合
+3. BFC元素和浮动元素不会重叠
+4. BFC在计算高度时会把浮动元素也计算进去
+
+# 36. 实现 (5).add(3).minus(2) 功能
+```
+Number.prototype.add = function(n) {
+  return this + n;
+};
+Number.prototype.minus = function(n) {
+  return this - n;
+};
+```
+
+# 37. 连续赋值
+例1：
+```
+var a = 3;
+var b = a = 5;
+
+=
+
+var a = 3
+var a = 5
+var b = a
+```
+所以最后a和b都是5
+
+例2：
+```
+var a = { n: 1 }
+var b = a
+
+a.x = a = { n: 2 }
+```
+一开始a和b都引用对象`{n:1}`，然后到赋值语句  
+如果赋值语句中出现`.`则他会比`=`先一步执行，也就是说，我们先给a.x开辟一个空间  
+也就是说现在的a和b都是变成了
+```
+{
+  n: 1,
+  x: {
+      n: 2
+  }
+}
+```
+接下来到a的赋值了，a现在就变成了
+```
+{
+    n: 2
+}
+```
+
+# 38. display: none, visibility: hidden 和 opacity: 0
+- `display: none`: 不占空间，不能点击，一般用于隐藏元素，会引发回流，性能开销大，非继承属性，子孙节点改变也无法显示（父元素为none）
+- `visibility: hidden`: 占据空间，不能点击，显示不会导致页面结构变化，不会撑开，属于重绘操作，是继承属性，子孙节点可以通过修改显示出来
+- `opacity: 0`: 占据空间，可以点击，一般与transition一起用
+
+# 39. for 和 forEach 的性能
+for 比 forEact 快
+因为
+- for没有额外的函数调用栈，和上下文
+
+# 40. react-router的`<Link>` 和 `<a>` 有何区别
+<Link>是禁用了<a>标签的默认事件，他只会更新匹配的页面的内容，而不会刷新整个页面。他使用的是`history`来进行跳转，会改变url，但是不会刷新页面
+
+# 41. 执行上下文
+- **全局执行上下文**：默认的上下文，任何不在函数内部的代码都在全局上下文里面。他会执行两件事情： 创建一个全局的window对象，并且设置this为这个全局对象。一个程序只有一个全局对象
+- **函数执行上下文**：每当一个函数被调用，就会为该函数创建一个新的上下文，每个函数都有自己的上下文，不过是在函数被调用的时候创建的。函数上下文可以有任意多个，每当一个新的执行上下文被创建，他会按照定义的顺序执行一系列的步骤
+- **Eval函数执行上下文**：执行在`eval`函数内部的代码有他自己的执行上下文
+
+# 42. 执行栈
+执行栈就是一个调用栈，是一个后进先出数据结构的栈，用来存储代码运行时创建的执行上下文
+```
+let a = 'Hello World!';
+
+function first() {
+  console.log('Inside first function');
+  second();
+  console.log('Again inside first function');
+}
+
+function second() {
+  console.log('Inside second function');
+}
+
+first();
+console.log('Inside Global Execution Context');
+```
+![image](https://user-gold-cdn.xitu.io/2018/9/20/165f539572076fe3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+# 43. 创建执行上下文
+分为两个阶段
+- 创建阶段
+- 执行阶段
+
+## 创建阶段
+代码执行前会创建执行上下文，会发生三件事
+1. this绑定
+2. 创建词法环境组件
+3. 创建变量环境组件
+
+### this绑定
+全局执行上下文中，this指向全局对象
+
+函数执行上下文中，this取决于函数是如何被调用的。如果他被一个引用对象调动，那么this会设置成那个对象。否则是全局对象
+```
+let foo = {
+  baz: function() {
+  console.log(this);
+  }
+}
+
+foo.baz();   // 'this' 引用 'foo', 因为 'baz' 被
+             // 对象 'foo' 调用
+
+let bar = foo.baz;
+
+bar();       // 'this' 指向全局 window 对象，因为
+             // 没有指定引用对象
+```
+
+### 词法环境
+是一个用代码的词法嵌套结构定义标识符和具体变量和函数关联的东西。用来存储函数声明和`let`, `const`声明的变量绑定
+
+### 变量环境
+同样是一个词法环境，用来存储`var`变量绑定
+```
+let a = 20;
+const b = 30;
+var c;
+
+function multiply(e, f) {
+ var g = 20;
+ return e * f * g;
+}
+
+c = multiply(20, 30);
+```
+只有在调用函数multipy的时候才会创建函数执行上下文，let和const一开始不会关联任何值，但是var已经会设置为undefined了，这就是常说的**变量声明提升**
+
+# 44. 事件循环
+任务分为两类
+- 同步任务
+- 异步任务
+
+![image](https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+宏任务
+- 主体代码
+- setTimeout
+- setInterval
+- setImmediate
+- requestAnimationFrame
+
+微任务
+- process.nextTick
+- mutation.observer
+- Promise.then cath finally
+
+# 45. link 与 @import
+- link属于html标签，@import属于css提供的
+- 页面加载的时候link就加载，而@import是等页面加载完成之后再加载css
+- link不存在兼容性问题
+- link权重更大
+
+# 46. 外边距重叠
+- 两个相邻的外边距都是正数时，折叠效果是两者之间较大的
+- 两个相邻的外边距都是负数时，折叠效果是绝对值最大的
+- 两个外边距一正一负时候，效果是相加起来
+
+# 47. 渐进增强 和 优雅改进
+- **渐进增强**：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进
+- **优雅改进**：一开始就构建好完整的功能，然后再对低版本浏览器进行兼容
+
+区别：渐进增强是向上兼容，优雅改进是向下兼容
+
+# 48. 立即执行函数
+作用
+- 不破坏全局的命名空间
+- 如需使用，要将变量传入
+
+```
+(function(x){
+  console.log(x);
+}(12345))
+```
+
+# 49. HTTP2.0 与 HTTP1.1
+## HTTP2.0
+1. HTTP2.0基本单位为二进制，以往是采用文本形式，健壮性不是很好，现在采用二进制格式，更方便更健壮
+2. HTTP2.0的多路复用，把多个请求当做多个流，请求响应数据分成多个帧，不同流中的帧交错发送，解决了TCP连接数量多，TCP连接慢，所以对于同一个域名只用创建一个连接就可以了
+4. HTTP2.0压缩消息头，避免了重复请求头的传输，又减少了传输的大小
+5. HTTP2.0服务端推送，浏览器发送请求后，服务端会主动发送与这个请求相关的资源，之后浏览器就不用再次发送后续的请求了。
+6. HTTP2.0可以设置请求优先级，可以按照优先级来解决阻塞的问题
+
+## HTTP1.1
+- 缓存处理新增etag、if-none-match之类的缓存头来控制缓存
+- 长连接，可以在TCP连接上发送多个请求和响应
+
+
+
+# 50. css动画与js动画的区别
+- css性能好
+- css代码逻辑相对简单
+- js动画控制好
+- js动画兼容性好
+- js可以实现动画多
+- js可以添加事件
+
+# 51. offset、client和scroll的属性
+- client：padding + content - 滚动条
+- offset：padding + content + boder
+- scroll：padding + 实际的content
+
+# 52. 手撕代码题
+1. 输入根节点，打印标签路径，以及路径上data-v最大值
+```
+const root = document.getElementById("root");
+
+function walk(node, path, max) {
+  if (!node) {
+    return;
+  }
+  path = [...path, node.tagName];
+  max = Math.max(max, node.dataset.v);
+  console.log(path, max);
+  for (let child of node.children) {
+    walk(child, path, max);
+  }
+}
+walk(root, [], -1)
+
+...
+
+<div id="root" data-v="3">
+  <p data-v="1">p1</p>
+  <span data-v="2">
+    span1
+    <span data-v="4">span2</span>
+    <span data-v="5">
+      <p>1</p>
+    </span>
+  </span>
+  <p data-v="99">p2</p>
+</div>
+```
+
+
+2. 
+
+
+# 53. 行内元素的margin 和 padding
+- **水平方向**：水平方向上，都有效
+- **垂直方向**：垂直方向上，都无效，但是padding-bottom, padding-top会显示出效果，但是高度不会撑开，不会对周围元素有影响
+
+# 54. 行内元素和块级元素
+- 行内、块级元素可以相互转换
+- 行内元素会在一条水平线上排列，块级则会在新的一行
+- 行内元素不可以设置宽高，但是可以设置行高（line-height）
+- 行内元素垂直方向上设置margin和padding无效，padding垂直方向有显示但是不会撑开，不会影响别的元素
+- 块级可以包含行内元素和块级元素，行内元素只可以包含行内元素和文本
+
+
+# 55. margin、padding和translate百分比是按照什么计算的
+- margin：按照父元素的宽高来计算的
+- padding：按照父元素的宽高来计算的
+- translate：是按照本身的宽高计算的
+
+
+# 56. display: inline-block元素之间有间隙
+**原因**
+`inline-block`对外是`inline`，对内是`block`，会将连续的空白符解析为一个空格
+
+**解决办法**
+- 删除空格
+- 父元素设置`font-size: 0`
+- 父元素设置`letter-spacing: -4px`
+- 子元素设置`vertical-align: bottom`去除垂直间隙
+
+# 57. HTTPS原理
+HTTP是明文传输，传输的每一个环节都可能会被第三方窃取或者篡改。具体来说就是HTTP数据经过TCP层，然后经过WIFI路由器、运营商和目标服务器，都可能被中间人拿到数据并进行篡改，这就是常说的**中间人攻击**
+
+HTTPS是一个加强版的HTTP。采用**对称加密**和**非对称加密**结合的方式来保护浏览器和服务端之间的通信安全。
+对称加密算法加密数据 + 非对称加密算法交换密钥 + 数字证书验证身份 = 安全
+
+HTTPS由两部分组成：HTTP + SSL/TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据是加密后的数据
+
+## 加密过程
+首先浏览器会给服务器发送一个`client_random`和一个加密的方法列表  
+
+服务器接受后给浏览器返回另一个随机数`server_random`和加密方法  
+
+现在两者拥有三种相同的凭证: `client_random`, `server_random`和`加密方法`  
+
+接着用这个加密方法将两个随机数混合起来生成密钥，这个密钥就是浏览器和服务器通信的`暗号`了
+
+
+## 对称加密和非对称加密
+- 对称加密是最简单的方式，指的是加密和解密用的是同样的秘钥，优点是保证了消息的保密性，但缺点是密钥可能会泄露
+
+- 非对称加密是说，如果有A、B两把密钥，用A加密过的数据包只能用B解密，反之用B加密的数据包只能由A解密，客户端在发消息的时候，先用公钥加密，服务器再用私钥解密。但是因为公钥不是保密的，可能会被窃取然后对消息进行篡改
+
+## 数字证书和数字签名
+为了解决非对称加密中公匙来源的不安全性。我们可以使用数字证书和数字签名来解决。
+
+首先本地生成一对密钥，通过公钥去CA申请数字证书
+
+- **数字签名**：CA拿到信息后会通过单向的hash算法把信息加密，然后生成一个摘要，然后CA会用自己的私钥对摘要进行加密，最后得出的结果就是数字签名了
+
+- **数字证书**：最后CA会将申请的信息还有数字签名整合在一起，就生成了数字证书了，其实也就是一个公钥
+
+- **数字证书如何起作用**：
+1. 客户端用CA的公钥解密数字证书，如果数字证书来源合法，解密成功后，客户端就获得了信息摘要了。然后客户端会按照和CA一样的hash算法将申请信息生成一份摘要。
+2. 然后和解密出来的那份摘要进行对比，如果内容完整，则说明没有被篡改。客户端就可以从证书中拿到服务器的公钥和服务器进行安全的非对称加密通信了。服务器要想获得客户端的公钥也可以通过这个方式
+
+## 握手过程
+1. 客户端申请https通信
+2. 服务器响应然后向客户端发送数字证书（公钥）
+3. 客户端TLS验证证书，拿到公钥，如果没有问题就生成一个随机值，然后用公钥加密传给服务器
+4. 服务器收到后用私钥解密，拿到了对称密钥，之后可以通过这个密钥进行信息传输了，然后建立SSL连接通道
+5. 共享密钥交换成功，客户端和服务端开始加密通信
+6. 断开连接
+
+## 使用
+https加解密耗时比较长，也很消耗资源，如果不是安全性要求非常高可以不用
+
+# 58. setImmediate() 和 process.nextTick()
+- setTimeout为在指定时间之后就执行
+- setImmediate设计是当前轮询阶段完成后就立即执行
+如果放在同一个I/O循环内使用，setImmediate总是被优先调用，他的优势是如果在I/O周期内被调度的话，他会在所有定时器之前执行。他执行的方式是当前任务队列的尾部
+- process.nextTick触发的是在当前执行栈的尾部，下一次事件循环之前，总是在异步之前。
+
+为什么要使用process.nextTick()，因为可以允许用户处理错误，或者是在事件循环继续之前重试请求
+
+
+# 59. 浏览器和node的事件循环
+浏览器任务分为**宏任务**和**微任务**
+- 宏任务：script中的代码、setTimeout、setInterval、I/O、UI render
+- 微任务：promise、Object.observe、MutationObserver
+
+node分为以下几种：
+- microTask：微任务
+- nextTick：process.nextTick
+- timers: 各类定时器
+- I/O callback：是否有已完成的I/O操作的回调函数，来自上一轮的轮训的残留，执行几乎所有的回调，但是不包括close，定时器还有setImmediate
+- idle，prepare：仅在内部使用
+- poll：等待新的I/O事件，会因timers和超时事件等结束时间，一般阻塞在这里
+- check：执行setImmediate的回调
+- close callback：关闭所有的closing handles，一些onclose事件
+
+## Node环境下
+循环之前，会执行以下操作：
+- 同步任务
+- 发出异步请求
+- 规划定时器生效的时间
+- 执行process.nextTick()
+
+开始循环
+循环中进行的操作：
+- 清空timers队列，清空nextTick队列，清空microTask队列
+- 清空I/O队列，清空nextTick队列，清空microTask队列
+- 清空check队列，清空nextTick队列，清空microTask队列
+- 清空close队列，清空nextTick队列，清空microTask队列
+
+![image](https://image.fundebug.com/2019-01-14-005.png)
+
+## 区别
+- node环境下的setTimeout定时器会依次一起执行，浏览器是一个一个分开的
+- 浏览器环境下微任务的执行是每个宏任务执行之后，而node中微任务会在各个阶段之间执行，一个阶段结束立刻执行mircroTask
+
+## 总结
+浏览器环境下：
+```
+while(true){
+    宏任务队列.shift()
+    微任务队列全部任务()
+}
+```
+
+Node环境下：
+```
+while(true){
+    loop.forEach((阶段)=>{
+        阶段全部任务()
+        nextTick全部任务()
+        microTask全部任务()
+    })
+}
+```
+
+
+# 60. React Fiber
+原先React采用的是**stack reconciler**调度算法。页面可能会出现卡顿，因为setState之后React会立即开始调和过程，会遍历找不同，所有virtual dom都遍历完之后，才会渲染。在调和的过程时候，主线程被js占用了，所以交互、布局都会停止，就会卡顿
+
+所以现在采用了Fiber reconciler来优化
+- 任务拆分
+- 更新暂停，终止和复用
+- 设置优先级
+- render可以返回多个元素
+
+## Scheduler
+调度是fiber调和的一个过程
+
+如果UI要有不错的表现，那就得考虑多点东西
+- 并不是所有state都需要立刻更新，例如不在可视范围内的
+- 不是所有更新优先级都是一样的，例如用户输入的优先级比请求资源展示要高
+- 高优先级的应该打断低优先级的更新
+
+所以调和的过程是每次只做一个小小的任务，完成之后查看还有没有优先级高的任务需要处理
+
+## Fiber数据结构
+![image](https://pic2.zhimg.com/80/v2-453e1f48a4f53356bee021c90ee00bed_hd.jpg)
+- return: 父节点
+- child：第一个子节点
+- sibling：兄弟节点
+
+```
+fiber {
+  	stateNode: {},
+    child: {},
+    return: {},
+    sibling: {},
+}
+```
+
+## 任务拆分
+Fiber拆分的单位是按照虚拟dom节点来拆，因为fiber tree是根据虚拟dom来构造出来的
+
+## 任务暂停
+Fiber利用浏览器的api`requestIdleCallback`来让浏览器空闲的时候执行某种任务
+```
+function fiber(剩余时间) {
+ if (剩余时间 > 任务所需时间) {
+ 做任务;
+ } else {
+ requestIdleCallback(fiber);
+ }
+}
+```
+
+使用`requestAnimationFrame`来渲染动画
+
+## 优先级
+```
+{ 
+ Synchronous: 1, // 同步任务，优先级最高
+ Task: 2, // 当前调度正执行的任务
+ Animation 3, // 动画
+ High: 4, // 高优先级
+ Low: 5, // 低优先级
+ Offscreen: 6, // 当前屏幕外的更新，优先级最低
+}
+```
+
+
+# 61. webpack流程
+1. 初始化：从配置文件读取与合并参数，然后实例化插件`new Plugin()`
+2. 开始编译：通过上一步获取的参数，初始化一个`Complier`对象加载插件，执行`Compiler.run`开始编译
+3. 确定入口：根据配置中`entry`找出所有入口文件
+4. 编译模块：从`entry`出发，调用配置的`loader`，对模块进行转换，同时找出模块依赖的模块，一直递归，一直到找到所有依赖的模块
+5. 完成模块编译：这一步已经使用`loader`对所有模块进行了转换，得到了转换后的新内容以及依赖关系
+6. 输出资源：根据入口与模块之间的依赖关系，组装成`chunk`代码块，生成文件输出列表
+7. 输出成功：根据配置中的输出路径还有文件名，把文件写入系统，完成构建
+
+# 62. webpack的热更新
+主要依赖`webpack`, `express`, `websocket`
+- 使用`express`启动本地服务，当浏览器访问的时候做出相应
+- 服务端和客户端使用`websocket`实现长连接
+- `webpack`监听源文件的变化
+    - 每次编译完成之后会生成**hash**值，已改动模块的json文件，已改动模块代码的js文件
+    - 编译完成后通过`socket`向客户端推送当前编译的hash值
+- 客户端的`websocket`监听到有文件改动推送过来的hash值，会和上一次进行对比
+    - 一致就走缓存
+    - 不一致则通过ajax和jsonp获取最新的资源
+- 使用内存文件系统去替换有修改的内容实现局部更新
+
+
+# 63. CommonJs 与 ES6模块化区别
+- CommonJs支持动态导入，ES6不支持
+- CommonJs是同步导入，ES6是异步导入
+- CommonJs导入的时候是值拷贝，如果导出变了他也不会变，但是ES6是引用的，如果导出变了，导入的部分也会变了
+
+用法
+- 导出：CommonJs是`module.exports`，ES6是`export / export default`
+- 导入：CommonJs是`const x = require('xx')`，ES6是`import xx from 'xxx'`
+
+
+# 64. 箭头函数和普通函数
+普通函数
+- 一般this指向全局对象window
+- 作为对象方法调用的时候，this指向对象
+- 作为构造函数时候，this指代new的对象
+- 可以通过call、apply来改变this
+
+箭头函数
+- this总是指向词法作用域
+- 无法通过call、apply改变this
+
+
+# 65. node读取文件转换为buffer
+```javascript
+const fs = require('fs')
+const path = require('path')
+const mimeType = require('mime-types') // 文件类型
+
+const filePath = path.resolve('./01.png')
+const data = fs.readFileSync(filePath)
+const buffer = new Buffer(data).toString('base64')
+const base64 = `data:${mimeType.lookup(filePath)};base64,${buffer}`
+console.log(base64)
+
+```
+
+# 66. sort函数
+- 数量小于10的数组使用插入排序
+- 数量大于10的数组使用快排
+
+# 67. 闭包 和 自执行函数
+## 闭包
+优点
+- 可以将局部变量一直存在内存中
+- 可以避免使用全局变量
+
+缺点：
+- 占用内存变多，可能导致内存泄漏
+
+## 自执行函数
+- 避免作用域命名污染
+- 提升性能，减少对作用域的查找
+- 避免全局命名冲突
+- 保存闭包状态
+
+
+## 区别
+- 立即执行函数声明完立刻执行，一般只用于一次
+- 闭包主要是为了让外部函数可以访问内部变量，减少了全局变量的使用
+
+# 68. 0.1 + 0.2 ！== 0.3
+js采用IEEE 754的双精度标准来进行计算，如果他碰到无法整除的小数的时候，就会取一个近似值，如果足够接近就觉得是那个值了
+
+
+# 69. React服务端渲染
+服务端渲染就是React通过Node.js转换成HTML再返回给浏览器，这个过程被称为“同构”，因为应用程序的大部分代码都可以在服务器和客户端上运行
+
+## 优点
+与传统的SPA单页应用程序比，
+- 更好的SEO，因为搜索引擎等爬虫工具可以直接查看完全渲染的页面
+- 更好的用户体验，如果网络缓慢，或者运行缓慢的设备，服务器渲染就很好
+
+## 弊端
+- 由于浏览器跟服务端有区别，document，window等可能获取不了，会报错
+- 服务器会占用更多的内存
+
+# 70. 前端路由的原理
+- hash模式，后面带了个#，无论hash值怎么变，服务端都只会收到#号前的url
+- history模式，主要使用history.pushState和history.replaceState来改变URL，改变url只会更新浏览器的历史记录，不会引起页面更新
+
+hash模式不需要后端配置，兼容性好，history模式需要后端配置才能使用
+
+
+# 71. Mobx原理
+![image](https://upload-images.jianshu.io/upload_images/1935872-a178011f056dd088.png)
+特点：
+- 开发难度低
+- 代码量少
+- 渲染性能好
+
+## 工作原理
+1. 定义状态让他变成**可观察**的
+2. 创建衍生来响应状态变化
+3. 使用action来改变状态
+
+## 设计原则
+Mobx支持单向数据流，动作改变状态，状态更新改变视图
+
+- Mobx通过不缓存数据，在需要的时候重新计算来保证所有衍生在一致的状态
+- 没有参与反应的衍生，就会被简单的垃圾回收
+
+Mobx是同步运行的，有2个好处
+- 不会获得旧的衍生
+- 追踪堆栈会更简单
+
+
+# 72. Object.create()实现原理
+其实就是新建一个对象，然后覆盖对象的原型为传入的原型对象(类似继承)
+```javascript
+function(constructor){
+    const F = function(){}
+    F.prototype = constructor
+    const res = new F()
+    return res
+}
+```
+
+
+# 73. 事件穿透
+设置css3属性`pointer-events: none`
+
+
+# 74. 常见http状态码
+- 200：成功，正常处理并返回
+- 204：处理成功，但是返回的主体信息没有内容
+- 301：永久重定向，请求的资源分配给另一个url
+- 302：临时重定向，希望本次访问可以通过另一个url来获取资源
+- 303：应该使用get来访问另一个url
+- 304：表示协商缓存可用
+- 400：请求中有语法错误
+- 401：未经许可，要验证
+- 403：拒绝访问，权限不够
+- 404：访问资源不存在
+- 500：请求异常，也可能是前端bug
+- 503：服务器停机维护，无法处理请求
+
+
+# 75. js、css阻塞
+js的async加载还有defer加载都不阻塞页面渲染还有资源加载
+- defer会按顺序加载，async乱序
+- defer是页面都解析完了在运行，立即下载延迟执行
+- async下载完成后立刻执行
+- 同时指定的话，async优先级高
+
+
+## 内嵌和外部js
+- 内嵌js会阻塞所有资源的加载
+- 外部js会阻塞后面的内容呈现以及资源的下载
+
+## css
+- css不会阻塞dom解析，会阻塞渲染，因为要dom树跟style树结合生成渲染树才会渲染
+- css会阻塞后续js语句执行
+
+> 如果css后面跟着内嵌js，则会出现阻塞情况，因为浏览器会维持css跟js顺序，样式表必须在嵌入的js之前加载完。
+
+# 76. 隐式转换
+- 数字运算符
+- 点号操作符
+- if语句内
+- = =
+
+
+# 77. React首屏优化
+1. 使用浏览器缓存
+2. webpack的JS压缩，html压缩
+3. 提取公共资源
+4. 将webpack开发环境修改为生产环境
+5. 使用雪碧图
+6. 使用cdn
+
+# 78. Object.assign
+如果对象只有一层，则是深拷贝，如果是多层则是浅拷贝
+```
+const obj1 = {
+  a: 1,
+  b: {
+    c: 2
+  }
+}
+
+const obj2 = Object.assign({}, obj1)
+console.log(obj1 == obj2)
+console.log(obj1, obj2)
+obj1.b = 2
+console.log(obj1 == obj2)
+console.log(obj1, obj2)
+```
+
+
+# 79. innerHtml 和 outerHtml
+![image](http://www.blogjava.net/images/blogjava_net/sxyx2008/69d02044-6eae-397e-a97d-8736d6351d3b.gif)
+- inner只是标签内，outer是包括标签
+
+
+# 80. rem 和 em
+- rem是根据根元素的字体大小定的
+- em是根据自身元素的字体大小定的，如果自身没有，那可以从父元素继承字体大小
+
+
+# 81. 垃圾回收机制 和 内存泄漏
+## 垃圾回收
+- 标记清除
+
+最常用的垃圾回收方式，运行的时候他会给变量标记，如果环境中的变量已经无法访问到这些变量，就清除
+```
+var m = 0,n = 19 // 把 m,n,add() 标记为进入环境。
+add(m, n) // 把 a, b, c标记为进入环境。
+console.log(n) // a,b,c标记为离开环境，等待垃圾回收。
+function add(a, b) {
+  a++
+  var c = a + b
+  return c
+}
+```
+例如函数的局部变量和参数，外部访问不了，则就会被清除
+
+- 引用计数
+
+判断资源被引用的次数
+```
+var arr = [1, 2, 3, 4];
+arr = [2, 4, 5]
+```
+例如一开始`[1,2,3,4]`的引用次数为1，不会被清除，但是下面吧arr的引用换了，`[1,2,3,4]`的引用数变成0，将被清除
+
+## 内存泄漏
+1. 意外的全局变量
+```
+function foo(arg) {
+    bar = "this is a hidden global variable";
+}
+```
+这样子bar会声明在全局变量里面，不会被释放
+
+2. 计时器
+如果使用`setInterval`而没有关闭，则他会一直存在不会被释放
+
+3. 闭包
+闭包会维持局部变量，就无法释放了
+
+4. 没有清理dom引用
+dom元素的引用如果不清除，他就会一直存在
+
+## 优化
+1. 数组优化
+```
+var arr = [1,2,3]
+arr.length = 0 // 这样子优化可以不用新生成一个空数组
+```
+
+2. 对象复用
+```
+var t = {}
+
+while(){
+    t.a = 1
+}
+
+t = null
+```
+尽量复用对象不要每次都生成，然后吼用完设置为null，垃圾回收
+
+3. 循环使用函数表达式
+```
+function t(){
+    
+}
+
+while(){
+    t()
+    // var t = function(){} 这样子就不用循环创建很多函数了
+}
+```
+
+# 82. 手写Promise.all
+```javascript
+const myPromiseAll = function (promiseList){
+    const result = []
+    return new Promise((resolve, reject) => {
+        let index = 0
+        next()
+        function next(){
+            promiseList[index].then((res) => {
+                result.push(res)
+                index++
+                if(index === promiseList.length){
+                    resolve(result)
+                } else {
+                    next()
+                }
+            })
+        }
+    })
+    
+}
+```
+
+
+# 83. post的方法
+- application/x-www-form-urlencoded （url传参数）
+- multipart/form-data （上传文件）
+- application/json （传json）
+- text/xml
+
+
+# 84. http options预检请求
+正式跨域之前，会发起option请求，预检一下。检测发送的请求是否安全，同时发送请求地址，请求方法，服务器判断来源域名是否再许可名单内，请求方法支不支持，支持则允许请求
+
+复杂请求才会发送预检，以下为复杂请求
+- put/delete/patch/post的其中一种
+- 发送json格式（content-type: application/json）
+- 请求中有自定义头部
+
+**为什么要进行预检？**
+复杂请求可能会对服务器产生副作用，数据修改等。所以要检测一下请求来源在不在许可名单上
+
+# 85. oop三大特点
+- 封装
+- 继承
+- 多态
+
+# 86. 
