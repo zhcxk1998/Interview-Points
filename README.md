@@ -2,7 +2,6 @@
 这是从各个论坛博客的文章中得来的，自己稍加改造一下整理的一些面试知识点:computer:
 
 # 目录
-
 <!-- TOC -->
 
 - [Interview-Points](#interview-points)
@@ -43,6 +42,7 @@
 - [19. 事件委托](#19-事件委托)
   - [事件冒泡](#事件冒泡)
   - [事件委托的优点](#事件委托的优点)
+  - [注意](#注意)
 - [20. instanceof的的实现原理](#20-instanceof的的实现原理)
 - [21. 继承](#21-继承)
 - [22. for...in 和 for...of](#22-forin-和-forof)
@@ -184,14 +184,36 @@
   - [垃圾回收](#垃圾回收)
   - [内存泄漏](#内存泄漏)
   - [优化](#优化)
-- [82. 手写Promise.all](#82-手写promiseall)
+- [82. 手写Promise 和 Promise.all](#82-手写promise-和-promiseall)
+  - [Promise](#promise)
+  - [Promise.all](#promiseall)
 - [83. post的方法](#83-post的方法)
 - [84. http options预检请求](#84-http-options预检请求)
 - [85. oop三大特点](#85-oop三大特点)
-- [86.](#86)
+- [86. 手写限制并发数](#86-手写限制并发数)
+- [87. webpack的tree shaking](#87-webpack的tree-shaking)
+- [88. getComputedStyle 和 style](#88-getcomputedstyle-和-style)
+- [89. 怪异盒模型](#89-怪异盒模型)
+- [90. Object.defineProperty](#90-objectdefineproperty)
+- [91. HTTP如何复用连接](#91-http如何复用连接)
+- [92. HTTP和TCP的关系](#92-http和tcp的关系)
+- [93. node的优势](#93-node的优势)
+- [94. HTTP报文结构](#94-http报文结构)
+  - [请求头](#请求头)
+  - [响应头](#响应头)
+- [95. async / await](#95-async--await)
+  - [async](#async)
+  - [await](#await)
+  - [与generator的区别](#与generator的区别)
+- [96. 是否每一次请求都会三次握手](#96-是否每一次请求都会三次握手)
+- [97. TCP的keepAlive和HTTP的keep-alive](#97-tcp的keepalive和http的keep-alive)
+- [98. TCP两次握手可不可以呢](#98-tcp两次握手可不可以呢)
+- [99. TCP三次握手中可以传输数据吗](#99-tcp三次握手中可以传输数据吗)
+- [100. 2MSL等待状态](#100-2msl等待状态)
+- [101. websocket](#101-websocket)
+- [102. hasOwnProperty](#102-hasownproperty)
 
 <!-- /TOC -->
-
 
 # 1. 模拟new的过程
 实现步骤
@@ -206,7 +228,6 @@ function Animals(name, color){
 
 Animals.prototype.action = function () {
   console.log(this.name, 'walk')
-}
 ```
 首先定义一个构造函数，以及他原型的方法  
 接着实现一个`create`方法来模拟new
@@ -406,6 +427,9 @@ JavaScript:
 - `post` 更安全，更多编码类型，可以发大数据
 
 # 8. TCP三次握手
+为什么要TCP握手呢
+> 为了防止已失效的连接请求报文段突然又传回服务端，从而产生错误
+
 1. 客户端发送syn（同步序列编号）请求，进入syn_send状态，等待确认
 2. 服务端接受syn包并确认，发送syn + ack包，进入syn_recv状态
 3. 客户端接受syn + ack包，发送ack包，双方进入established状态
@@ -632,6 +656,8 @@ Http的请求头信息不超过以下几种字段：
 - 不同，说明资源被修改过，则相应整个资源内容，返回状态码200
 - 相同，说明资源没有被修改，则响应header，浏览器直接从缓存中获取数据信息，服务器返回状态码304
 
+**Etag 的精度比 Last-modified 高，属于强验证，要求资源字节级别的一致，优先级高。如果服务器端有提供 ETag 的话，必须先对 ETag 进行 Conditional Request。**
+
 > 但是实际应用中由于`Etag`的计算是由算法得来的，而算法会占用服务器计算的资源，所有服务器端的资源都是宝贵的，所以就很少使用`Etag`了
 
 - 浏览器输入URL地址，回车之后，浏览器发现缓存中已经有这个文件了，就不用继续请求，直接从缓存中获取数据信息
@@ -764,6 +790,12 @@ window.onload = () => {
 ```
 
 这样点击li标签的时间就会冒泡到ul上面，然后开始执行绑定的方法
+
+## 注意
+分情况分析:
+
+- 有拿到节点的,优先捕获,没有才往上冒泡寻找
+- 若是通过node.addEventListener('event',callback,bubble or capture); 谁先调用谁先执行
 
 # 20. instanceof的的实现原理
 ```
@@ -2077,7 +2109,41 @@ walk(root, [], -1)
 ```
 
 
-2. 
+2. 实现compose函数
+```
+var arr = [func1, func2, func3];
+function func1(ctx, next) {
+  ctx.index++
+  next();
+}
+function func2(ctx, next) {
+  setTimeout(function () {
+    ctx.index++
+    next();
+  });
+}
+function func3(ctx, next) {
+  console.log(ctx.index);
+}
+
+compose(arr)({ index: 0 });
+
+function compose(arr) {
+  return function (ctx) {
+    if (arr.length !== 0) {
+      let func = arr.shift()
+      func(ctx, next)
+    }
+    function next() {
+      if (arr.length !== 0) {
+        let func = arr.shift()
+        func(ctx, next)
+      }
+    }
+  }
+}
+```
+
 
 
 # 53. 行内元素的margin 和 padding
@@ -2093,9 +2159,9 @@ walk(root, [], -1)
 
 
 # 55. margin、padding和translate百分比是按照什么计算的
-- margin：按照父元素的宽高来计算的
-- padding：按照父元素的宽高来计算的
-- translate：是按照本身的宽高计算的
+- margin：按照父元素的宽来计算的
+- padding：按照父元素的宽来计算的
+- translate：是按照本身的宽���计算的
 
 
 # 56. display: inline-block元素之间有间隙
@@ -2137,8 +2203,10 @@ HTTPS由两部分组成：HTTP + SSL/TLS，也就是在HTTP上又加了一层处
 首先本地生成一对密钥，通过公钥去CA申请数字证书
 
 - **数字签名**：CA拿到信息后会通过单向的hash算法把信息加密，然后生成一个摘要，然后CA会用自己的私钥对摘要进行加密，最后得出的结果就是数字签名了
+![image](https://user-gold-cdn.xitu.io/2017/10/16/6efb9ac7ac6baa22cd88fd35074f46b7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 - **数字证书**：最后CA会将申请的信息还有数字签名整合在一起，就生成了数字证书了，其实也就是一个公钥
+![image](https://user-gold-cdn.xitu.io/2017/10/16/808f41fbb63ec6f3397288368160c7a6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 - **数字证书如何起作用**：
 1. 客户端用CA的公钥解密数字证书，如果数字证书来源合法，解密成功后，客户端就获得了信息摘要了。然后客户端会按照和CA一样的hash算法将申请信息生成一份摘要。
@@ -2151,6 +2219,14 @@ HTTPS由两部分组成：HTTP + SSL/TLS，也就是在HTTP上又加了一层处
 4. 服务器收到后用私钥解密，拿到了对称密钥，之后可以通过这个密钥进行信息传输了，然后建立SSL连接通道
 5. 共享密钥交换成功，客户端和服务端开始加密通信
 6. 断开连接
+![image](https://user-gold-cdn.xitu.io/2017/10/16/be5e7b8e6b17fed4edf31dbf4ee65117?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+```
+客户端: 你好，我要发起一个 HTTPS 请求，请给我公钥
+服务器: 好的，这是我的证书，里面有加密后的公钥
+客户端: 解密成功以后告诉服务器: 这是我的 (用公钥加密后的) 对称秘钥。
+服务器: 好的，我知道你的秘钥了，后续就用它传输。
+```
 
 ## 使用
 https加解密耗时比较长，也很消耗资源，如果不是安全性要求非常高可以不用
@@ -2467,6 +2543,7 @@ js的async加载还有defer加载都不阻塞页面渲染还有资源加载
 - if语句内
 - = =
 
+> https://blog.csdn.net/itcast_cn/article/details/82887895
 
 # 77. React首屏优化
 1. 使用浏览器缓存
@@ -2580,7 +2657,74 @@ while(){
 }
 ```
 
-# 82. 手写Promise.all
+# 82. 手写Promise 和 Promise.all
+
+## Promise
+> https://juejin.im/post/5b2f02cd5188252b937548ab
+
+以下为简略版
+```javascript
+function myPromise(executor) {
+  this.state = 'pending';
+  this.value = undefined;
+  this.reason = undefined;
+  this.onResolvedCallbacks = [];
+  this.onRejectedCallbacks = [];
+  let resolve = value => {
+    if (this.state === 'pending') {
+      this.state = 'fulfilled';
+      this.value = value;
+      this.onResolvedCallbacks.forEach(fn => fn());
+    }
+  };
+  let reject = reason => {
+    if (this.state === 'pending') {
+      this.state = 'rejected';
+      this.reason = reason;
+      this.onRejectedCallbacks.forEach(fn => fn());
+    }
+  };
+  try {
+    executor(resolve, reject);
+  } catch (err) {
+    reject(err);
+  }
+}
+
+myPromise.prototype.then = function (onFulfilled, onRejected) {
+  // 声明返回的promise2
+  let promise2 = new Promise((resolve, reject) => {
+    if (this.state === 'fulfilled') {
+      onFulfilled(this.value)
+    };
+    if (this.state === 'rejected') {
+      onRejected(this.reason)
+    };
+    if (this.state === 'pending') {
+      this.onResolvedCallbacks.push(() => {
+        onFulfilled(this.value)
+      })
+      this.onRejectedCallbacks.push(() => {
+        onRejected(this.reason)
+      })
+    }
+  });
+  // 返回promise，完成链式
+  return promise2;
+}
+
+new myPromise((resolve, reject) => {
+  console.log('1')
+  resolve(1)
+  console.log('2')
+}).then((res) => {
+  console.log(res)
+  console.log('4')
+  return 2
+})
+```
+
+## Promise.all
 ```javascript
 const myPromiseAll = function (promiseList){
     const result = []
@@ -2627,4 +2771,173 @@ const myPromiseAll = function (promiseList){
 - 继承
 - 多态
 
-# 86. 
+# 86. 手写限制并发数
+```javascript
+function limitPromise(taskList, limit) {
+  return new Promise((resolve, reject) => {
+    let index = 0
+    let active = 0
+    let finish = 0
+    let result = []
+
+    function next() {
+      if (finish >= taskList.length) {
+        resolve(result)
+        return
+      }
+
+      while (active < limit && index < taskList.length) {
+        active++
+        let cur = index
+        taskList[index].then((res) => {
+          active--
+          finish++
+          result[cur] = res
+          next()
+        })
+        index++
+      }
+    }
+    next()
+  })
+}
+```
+
+
+# 87. webpack的tree shaking
+tree shaking是用于清除无用代码的方式，webpack3/4开始之后就自动集成
+
+
+# 88. getComputedStyle 和 style
+- getComputedStyle只读，style可读可写
+- style只能获取内联样式
+
+`window.getComputedStyle(dom, null).getPropertyValue('display')`
+
+
+# 89. 怪异盒模型
+- 标准盒模型：宽度 = width + margin + padding + border
+
+假设现在两个div一行放置，都是50%宽，假如我们再期中一个加上边框，这样另一个就会被挤压
+
+这时候我们可以将box-sizing设置为`border-box
+
+- content-box: 默认，标准盒模型
+- border-box：border和padding算入width中
+- padding-box：padding算入width`
+
+# 90. Object.defineProperty
+```
+Object.defineProperty(obj, prop, descriptor)
+
+MDN描述：
+obj要在其上定义属性的对象。
+prop要定义或修改的属性的名称。
+descriptor将被定义或修改的属性描述符。
+```
+- value：设定值
+- writable：是否可被重写
+- enumberable：是否可枚举（for..in, Object.keys）
+- set/get
+- configrable：是否可重定义
+
+# 91. HTTP如何复用连接
+设置http的header：`Connection: keep-alive`，告诉服务器，待会我还要请求，就可以避免再次三次握手了
+
+
+# 92. HTTP和TCP的关系
+- http是应用层，tcp是传输层
+- http是基于tcp的基础上实现的
+- tcp只是单纯的进行连接，http是会进行收发数据
+
+# 93. node的优势
+- 完全是js语法
+- 高并发能力很好
+- 非阻塞I/O
+- 开发周期短
+- 单进程、单线程
+
+
+# 94. HTTP报文结构
+- 请求报文：请求行，请求头，空行，请求数据
+- 响应报文，状态行，消息头，空行，响应正文
+
+## 请求头
+- 请求方法：get/post
+- host：请求主机
+- connection：连接状态
+- cache-control：缓存
+- accept：能发送的类型
+- user-agent：代理
+- reference：请求资源的url
+- accept-encoding：支持的编码方式
+- cookie：cookie
+
+## 响应头
+- date：响应时间
+- last-modify：最后修改时间
+- etag：资源标识
+- connection：连接状态
+- content-type：资源类型
+
+
+
+# 95. async / await
+## async
+async总是返回promise
+- 没有显示return，则返回promise.resolve(undefined)
+- 返回不是promise的话，则返回promise.resolve(data)
+- 返回promise就会得到promise
+
+## await
+- await只可以用在async里面
+- 如果await后是非promise，则获取里面resolve的值
+
+## 与generator的区别
+async就是generator的语法糖
+
+async对比generator的改进
+1. 内置执行器，不需要next来执行
+2. 更好的语义化
+3. 返回promise，可以继续操作
+
+# 96. 是否每一次请求都会三次握手
+如果没有缓存的情况下，请求头设置`connection:keep-alive`则可以不重新握手
+
+
+# 97. TCP的keepAlive和HTTP的keep-alive
+- TCP的keepAlive是侧重于保持客户端和服务端的连接，会不定时发送心跳包验证有没有断开连接，如果没有这个机制的话，一方断开，另一方不知道，就会对服务器资源产生较大的影响
+
+- HTTP的keep-alive可以让服务器客户端保持这个连接，不需要重新tcp进行连接了
+
+# 98. TCP两次握手可不可以呢
+假如第一次发出连接请求，如果服务器端没有确认，客户端再进行一次请求，然后他们开始连接，在这之后，如果第一次只是延迟了，然后现在发送给客户端，如果没有三次握手的话，就直接开启连接，然而客户端并没有数据要传输，则服务端会一直等待客户端发数据
+
+
+# 99. TCP三次握手中可以传输数据吗
+第一次第二次不可以，因为很容易被人攻击，而第三次握手已经进入establish状态了，已经确认双方的收发能力，可以传输
+
+
+# 100. 2MSL等待状态
+MSL是报文最大生存时间，客户端进入timewait的状态之后，需要等待2msl的时间，这样可以让最后发送的ack不会丢失，保证连接正常关闭，time_wait就是为了防止最后ack重发可能丢失的情况
+
+
+# 101. websocket
+http连接具有被动型，只能主动去向服务器请求看有没有新消息，一直轮询。
+
+websocket是一个持久化的协议，连接了就不会自动断开。而且传递信息的时候只需要传递一点点头信息即可。一次握手，持久连接
+
+
+# 102. hasOwnProperty
+这个方法只会遍历自身属性，不会从原型链上遍历，可以用来判断属性是否在对象上或者是原型链继承来的
+```
+const obj = new Object()
+obj.num = 1
+
+Object.prototype.fn = function(){
+    console.log(2)
+}
+
+obj.hasOwnProperty(num) // true
+obj.hasOwnProperty(fn)  // false
+```
