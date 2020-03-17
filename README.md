@@ -2,6 +2,7 @@
 这是从各个论坛博客的文章中得来的，自己稍加改造一下整理的一些面试知识点:computer:
 
 # 目录
+
 <!-- TOC -->
 
 - [Interview-Points](#interview-points)
@@ -15,7 +16,7 @@
   - [2. 回流](#2-回流)
   - [如何避免重绘和回流](#如何避免重绘和回流)
 - [6. 浏览器存储](#6-浏览器存储)
-- [7. 网络请求方式](#7-网络请求方式)
+- [7. 网络请求方式post和get](#7-网络请求方式post和get)
 - [8. TCP三次握手](#8-tcp三次握手)
 - [9. TCP四次挥手](#9-tcp四次挥手)
 - [10. 内存泄漏](#10-内存泄漏)
@@ -23,6 +24,7 @@
 - [12. 常用正则表达式](#12-常用正则表达式)
 - [13. 跨域](#13-跨域)
   - [跨域行为](#跨域行为)
+  - [常见跨域](#常见跨域)
   - [JSONP](#jsonp)
   - [CORS跨域](#cors跨域)
   - [简单请求](#简单请求)
@@ -48,6 +50,7 @@
 - [22. for...in 和 for...of](#22-forin-和-forof)
 - [23. 数组扁平化](#23-数组扁平化)
 - [24. 前端性能优化](#24-前端性能优化)
+  - [编写时候](#编写时候)
 - [25. js实现动画](#25-js实现动画)
 - [26. 实现autocomplete属性](#26-实现autocomplete属性)
 - [27. 代码实现深拷贝](#27-代码实现深拷贝)
@@ -55,6 +58,8 @@
 - [29. 数组去重](#29-数组去重)
 - [30. React中的key作用](#30-react中的key作用)
   - [概述](#概述)
+  - [注意](#注意-1)
+  - [使用index作为key的场景](#使用index作为key的场景)
   - [反模式](#反模式)
   - [总结](#总结)
 - [31. React系列](#31-react系列)
@@ -78,6 +83,7 @@
   - [diff算法](#diff算法)
   - [diff算法的三种优化策略](#diff算法的三种优化策略)
   - [react性能优化](#react性能优化)
+  - [react的坑点](#react的坑点)
   - [简述Flux思想](#简述flux思想)
   - [展示组件（Presentational component）和容器组件（Container component）之间有何不同](#展示组件presentational-component和容器组件container-component之间有何不同)
   - [组件的状态（state）和属性（props）有何区别](#组件的状态state和属性props有何区别)
@@ -93,9 +99,14 @@
   - [高阶函数](#高阶函数)
     - [属性代理](#属性代理)
     - [反向继承](#反向继承)
-  - [HOC存在的问题](#hoc存在的问题)
-  - [HOC约定](#hoc约定)
-  - [应用场景](#应用场景)
+    - [HOC存在的问题](#hoc存在的问题)
+    - [HOC约定](#hoc约定)
+    - [应用场景](#应用场景)
+  - [React组件通信](#react组件通信)
+  - [为什么选择React而不是Vue](#为什么选择react而不是vue)
+  - [React 与 MVVM 的关系](#react-与-mvvm-的关系)
+  - [React的单向绑定与双向绑定的区别](#react的单向绑定与双向绑定的区别)
+  - [React函数式组件与class组件区别](#react函数式组件与class组件区别)
 - [33. CSRF 和 XSS](#33-csrf-和-xss)
   - [区别](#区别-1)
   - [CSRF](#csrf)
@@ -175,6 +186,8 @@
 - [75. js、css阻塞](#75-jscss阻塞)
   - [内嵌和外部js](#内嵌和外部js)
   - [css](#css)
+  - [加载顺序](#加载顺序)
+  - [注意](#注意-2)
 - [76. 隐式转换](#76-隐式转换)
 - [77. React首屏优化](#77-react首屏优化)
 - [78. Object.assign](#78-objectassign)
@@ -212,8 +225,67 @@
 - [100. 2MSL等待状态](#100-2msl等待状态)
 - [101. websocket](#101-websocket)
 - [102. hasOwnProperty](#102-hasownproperty)
+- [103. DNS域名解析](#103-dns域名解析)
+  - [域名解析过程](#域名解析过程)
+  - [域名解析方式](#域名解析方式)
+- [104. JWT原理](#104-jwt原理)
+  - [数据结构](#数据结构)
+    - [header](#header)
+    - [payload](#payload)
+    - [signature](#signature)
+  - [使用方式及特点](#使用方式及特点)
+    - [使用方式](#使用方式)
+    - [特点](#特点)
+- [105. 什么是DOCTYPE及其作用](#105-什么是doctype及其作用)
+- [106. koa原理](#106-koa原理)
+  - [与 express 的区别](#与-express-的区别)
+  - [结构](#结构)
+    - [application.js](#applicationjs)
+    - [context.js](#contextjs)
+    - [request/response.js](#requestresponsejs)
+  - [洋葱模型](#洋葱模型)
+- [107. babel基本原理](#107-babel基本原理)
+  - [什么是babel](#什么是babel)
+  - [babel基本原理](#babel基本原理)
+- [108. npm版本号](#108-npm版本号)
+  - [版本号](#版本号)
+  - [具体符号](#具体符号)
+- [109. git rebase 和 merge](#109-git-rebase-和-merge)
+- [110. React-Router 原理](#110-react-router-原理)
+- [111. document.readyState](#111-documentreadystate)
+- [112. symbol](#112-symbol)
+- [113. Samsite cookie](#113-samsite-cookie)
+- [114. async 和 promise的区别](#114-async-和-promise的区别)
+- [115. import 和 require如何在浏览器实现](#115-import-和-require如何在浏览器实现)
+  - [import](#import)
+    - [export](#export)
+    - [import](#import-1)
+- [116. target 和 currentTarget的区别](#116-target-和-currenttarget的区别)
+- [117. 为什么javascript是单线程的](#117-为什么javascript是单线程的)
+- [118. DNS预解析](#118-dns预解析)
+- [119. 什么是bundle、chunk、module](#119-什么是bundlechunkmodule)
+- [120. 什么是loader、plugin](#120-什么是loaderplugin)
+- [121. 组件懒加载原理](#121-组件懒加载原理)
+  - [require.ensure](#requireensure)
+- [122. HTML5离线缓存](#122-html5离线缓存)
+- [123. 点击劫持，如何防范](#123-点击劫持如何防范)
+- [124. 观察者模式 与 发布订阅模式](#124-观察者模式-与-发布订阅模式)
+  - [观察者模式](#观察者模式)
+  - [发布订阅模式](#发布订阅模式)
+  - [区别](#区别-4)
+- [128. nginx负载均衡](#128-nginx负载均衡)
+- [129. redis](#129-redis)
+- [130. Set,Map,WeakSet,WeakMap](#130-setmapweaksetweakmap)
+- [131. token 与 cookie的区别](#131-token-与-cookie的区别)
+  - [token](#token)
+  - [cookie](#cookie-1)
+- [132. null 与 undefined](#132-null-与-undefined)
+- [133. react中使用persist](#133-react中使用persist)
+- [134. position: relative会影响子元素offsetLeft等属性](#134-position-relative会影响子元素offsetleft等属性)
+- [135.](#135)
 
 <!-- /TOC -->
+
 
 # 1. 模拟new的过程
 实现步骤
@@ -280,6 +352,19 @@ const debounce = function (fn, delay = 1000) {
 }
 
 // 节流
+// 时间戳版
+function throttle(fn, delay = 500) {
+  let last = 0
+  return function (...args) {
+    let now = new Date().getTime()
+    if (now - last > delay) {
+      last = now
+      fn.apply(this, args)
+    }
+  }
+}}
+
+// 定时器版，初次调用会延迟
 const throttle = function (fn, delay = 1000) {
   let time = null
   return function (...args) {
@@ -317,11 +402,13 @@ const debounce = function (fn, delay = 1000) {
 ```
 
 # 3. 输入url到展示的过程
-1. DNS解析
-2. TCP三次握手
-3. 发送请求，分析url，设置请求头
-4. 服务器返回请求的文件（html）
-5. 浏览器渲染
+1. URL解析，如果有非法字符，就转义
+2. 判断请求资源缓存中有没有
+3. DNS解析
+4. TCP三次握手
+5. 发送请求，分析url，设置请求头
+6. 服务器返回请求的文件（html）
+7. 浏览器渲染
     - 解析html文件，生成dom树
     - 解析css文件，生成style树
     - 结合dom树和style树，生成渲染树（render tree）
@@ -416,15 +503,18 @@ JavaScript:
 - 也可以先为元素设置`display: none`，操作结束后再把它显示出来，因为再display为none的元素上进行dom操作不会引发重绘和回流
 - 避免频繁读取会引发重绘回流的属性，如果需要多次使用，就用一个变量缓存起来
 - 对具有复杂动画的元素使用绝对定位，使他脱离文档流，否则会引起父元素及后续元素频繁回流
+- 使用cssText来更改样式
 
 # 6. 浏览器存储
 - `cookie` 通常用于存用户信息，登录状态等，可自行设置过期时间，体积上限为4K
 - `localStorage` 无限期存储，体积上限为4~5M
 - `sessionStorage` 浏览器窗口关闭则删除，体积上线为4~5M
 
-# 7. 网络请求方式
-- `get` 会被浏览器缓存，请求长度受限，会被历史保存记录
-- `post` 更安全，更多编码类型，可以发大数据
+# 7. 网络请求方式post和get
+- `get` 会被浏览器缓存，请求长度受限，会被历史保存记录，浏览器回退时候是无害的，一般不带请求体，发送一个TCP数据包
+- `post` 更安全，更多编码类型，可以发大数据，浏览器回退的时候会再次提交请求，一般带有请求体，发送两个TCP数据包
+
+> 在网络差的时候，post发送两个TCP请求包，验证完整性更好
 
 # 8. TCP三次握手
 为什么要TCP握手呢
@@ -552,9 +642,25 @@ class Labrador extends Dog {
 ```
 
 # 13. 跨域
+
+![image](https://upload-images.jianshu.io/upload_images/14207565-ac6d446a58c82a53?imageMogr2/auto-orient/strip|imageView2/2/w/800/format/webp)
+
+> link,img,script标签可以跨域
+
 ## 跨域行为
 - 同源策略限制、安全性考虑（如cookies）
 - 协议、IP地址和端口不同都是跨域行为
+
+
+## 常见跨域
+- jsonp
+- cors
+- websocket
+- postMessage + iframe
+- document.domain + iframe
+- window.name + iframe
+- nginx代理
+- iframe嵌套进行跨域
 
 ## JSONP
 ```javascript
@@ -634,7 +740,7 @@ Http的请求头信息不超过以下几种字段：
 ## 协商缓存
 协商缓存需要进行对比判断是否可以使用缓存。浏览器第一次请求数据时候，服务器会将缓存标识与数据一起响应给客户端，客户端将他们备份至缓存中。再次请求时候，客户端会将缓存中的标识发送给服务端，服务端根据此表示判断。若未失效，返回304状态码，浏览器拿到此状态码，就可以直接使用缓存数据了。
 
-**Last-Modified**：服务器再响应请求时，会告诉浏览器资源的最后修改时间
+**Last-Modified**：服务器再响应请求时，会告诉浏览器资源的最后修改时间，因为可能最后一秒多次修改，或者是服务器与客户端时间不同，可能导致缓存未命中，所以之后推出了`etag`
 
 **if-Modified-Since**：浏览器再次请求服务器的时候，请求头会包含此字段，后面跟着在缓存中获得的最后修改时间。服务端收到此请求发现有`if-Modified-Since`后，则与被请求资源的最后修改时间进行对比，如果一致则返回304响应，浏览器只需要从缓存中获取数据即可
 - 如果资源被修改了，服务端就传输一个整体数据，服务器返回200 OK
@@ -745,6 +851,9 @@ css规范中使用两个双冒号`::`来表示伪元素，一个冒号`:`来表�
 
 # 19. 事件委托
 > 事件委托就是把一个元素响应时间（click，keydown....）的函数委托到另一个元素。一般来说，会把一个或者一组元素的时间委托到父层或者更外层元素上。真正绑定事件的是外层元素，当事件响应到需要绑定的元素时候，会通过事件冒泡机制，从而触发他的外层元素的绑定事件上，然后再外层函数执行
+
+- 类似keydown，onclick这种鼠标事件，键盘事件，支持冒泡的事件类型才有事件委托
+- 类似接口事件：change，submit这种就没有事件代理
 
 ## 事件冒泡
 ![image](https://lc-gold-cdn.xitu.io/a8d6c4231abb6134a7d1.png?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
@@ -954,6 +1063,19 @@ console.log(res2)
 
 # 24. 前端性能优化
 > https://csspod.com/frontend-performance-best-practices/
+
+## 编写时候
+
+- profile
+
+- 写代码的时候注意内存泄露（定时器、事件监听、闭包、全局变量、dom引用等）
+- css部分不要用table布局、css表达式等会引起回流的样式、可以开启3d硬件加速（perspective、backface-visibility修复闪烁）
+- js部分不要频繁修改样式、操作dom、可以使用防抖节流等、脚本放在页面底部
+- webpack部分可以压缩js，css、分离公共资源例如ui组件库等、配置组件按需加载（import()实现）
+- 浏览器部分可以设置缓存，使用cdn
+- 图片可以压缩图片，使用webp格式、雪碧图等，图片多的时候可以用懒加载等方法
+- React部分可以使用shouldComponentUpdate、React.Memo、pureComponent、列表元素设置key，尽量在constructor里面绑定函数等
+- nginx可以配置负载均衡、多服务器可以用redis来保持会话
 
 - 页面内容
     - 减少HTTP请求数
@@ -1168,10 +1290,54 @@ const removeDrop = function () {
 # 30. React中的key作用
 ## 概述
 key是用来帮助react识别哪些内容被更改、添加或者删除。key值需要一个稳定值，因为如果key发生了变化，react则会触发UI的重渲染。
+
 - 唯一性： key值必须唯一，如果出现了相同，会抛出警告，并且只会渲染第一个重复key值的元素。因为react会认为后续拥有相同key值的都是同一个组件。
 
 
 - 不可读性： 虽然在组件定义了key，但是子组件中是无法获取key值的
+
+> 改变组件的key值的话，可以销毁之前的组件，再创建新的组件
+
+## 注意
+如果涉及到数组的动态变更，例如数组新增元素，删除，重新排列，这时候如果index作为key值，会导致显示错误的数据
+![image](https://images2015.cnblogs.com/blog/408483/201704/408483-20170421171057509-1132998145.gif)
+```
+{this.state.data.map((v,idx)=><Item key={idx} v={v} />)}
+// 开始时：['a','b','c']=>
+<ul>
+    <li key="0">a <input type="text"/></li>
+    <li key="1">b <input type="text"/></li>
+    <li key="2">c <input type="text"/></li>
+</ul>
+
+// 数组重排 -> ['c','b','a'] =>
+<ul>
+    <li key="0">c <input type="text"/></li>
+    <li key="1">b <input type="text"/></li>
+    <li key="2">a <input type="text"/></li>
+</ul>
+```
+
+**key相同，组件有变化，则只会更新变化的属性，如果key不同，则会销毁之前的组件，整个组件重新渲染**
+
+## 使用index作为key的场景
+```
+第一页
+<ul>
+    <li key="0">张三</li>
+    <li key="1">李四</li>
+    <li key="2">王五</li>
+</ul>
+第二页
+<ul>
+    <li key="0">张三三</li>
+    <li key="1">李四四</li>
+    <li key="2">王五五</li>
+</ul>
+
+```
+翻页后，子组件值发生变化，但key不变，只会发生更新，而不会重新渲染
+
 
 ## 反模式
 现在有一个例子，我们不添加key的情况下，react会自动以索引的形式作为key值
@@ -1380,6 +1546,15 @@ createElement函数是JSX编译之后使用的创建Element的函数，而cloneE
 ## react性能优化
 - 利用shouldComponentUpdate来避免不必要的dom操作
 - 使用key来帮助React识别列表子组件的最小变化
+- React.memo
+- SSR
+- render里面不要使用箭头函数或者bind，应该再constructor中bind
+- 
+
+## react的坑点
+- componentWillUnmounted
+- this.setState不同步
+- pureComponent如果prop是多层对象，则不更新
 
 ## 简述Flux思想
 Flux最大的特点就是，**数据单向流动**
@@ -1388,6 +1563,7 @@ Flux最大的特点就是，**数据单向流动**
 3. Dispatcher收到Action，要求Store进行相应的更新
 4. Store更新后，发出一个“change”事件
 5. View收到“change”事件后，更新页面
+6. 使用防抖需要保持事件引用`event.persist()`
 
 ## 展示组件（Presentational component）和容器组件（Container component）之间有何不同
 - 展示组件关心组件看起来是什么，专门通过props来接收数据和回调，一般不会有自己的状态
@@ -1547,6 +1723,12 @@ memo的第一个参数是函数组件，第二个是与`shouldComponentUpdate类
 - 函数组件没有this的问题
 - 自定义hook方便复用状态逻辑
 - 副作用关注点分离
+- 写起来更加简单、易懂
+
+5. hook的缺点
+- hook的运行次数可能会比你预期的还要多
+- 有点难以维护useEffect的依赖项
+- 
 
 
 ## React 状态提升
@@ -1774,22 +1956,53 @@ function withLoading(WrappedComponent) {
   }
 ```
 
-## HOC存在的问题
+### HOC存在的问题
 - 静态方法丢失
 - refs属性不能透传
 - 反向继承不能保证子组件完整被解析
 
-## HOC约定
+### HOC约定
 - props保持一致
 - 不能再函数式（无状态）组件中使用refs，因为他没有
 - 不要改变子组件
 - 可以添加包装名便于调试
 - render里不要使用HOC
 
-## 应用场景
+### 应用场景
 1. 权限控制
 2. 页面复用
 
+## React组件通信
+- 父组件传子组件props
+- 子组件调用父组件的回调函数
+- 使用context
+- 使用EventEmitter 
+
+## 为什么选择React而不是Vue
+- React是函数式思想，状态逻辑什么的都是通过参数传入
+- 通过js来操作一切，css什么的也可以使用js的方式
+- 社区十分强大，很多功能由社区一起努力做出
+- UI库很棒
+- JSX让组件变得可读性更好，组件之间的结构看的比较清楚
+- 支持服务端渲染，更好的SEO和渲染性能
+
+## React 与 MVVM 的关系
+- M(odal): 对应组件中生命周期啊，state这些数据
+- v(iew): 对应虚拟dom生成的真是dom，还有样式等
+- V(iew)-M(odal): 对应组件中的JSX会通过diff算法将虚拟dom转换为真实dom
+
+
+## React的单向绑定与双向绑定的区别
+一般只有UI表单控件需要双向绑定。
+
+- 单向绑定值UI表单变化的时候需要我们手动更新状态，也就是设置监听事件`onChange`等
+- 双向绑定则自动更新
+
+在表单交互很多的时候，单向绑定数据更容易追踪管理和维护，但是需要写较多的代码
+
+
+## React函数式组件与class组件区别
+> https://overreacted.io/zh-hans/how-are-function-components-different-from-classes/
 
 # 33. CSRF 和 XSS
 ## 区别
@@ -2145,6 +2358,9 @@ function compose(arr) {
 ```
 
 
+3. 放大镜
+> 碎碎酱：https://codepen.io/yinxin630/pen/gObvGGj
+
 
 # 53. 行内元素的margin 和 padding
 - **水平方向**：水平方向上，都有效
@@ -2161,7 +2377,7 @@ function compose(arr) {
 # 55. margin、padding和translate百分比是按照什么计算的
 - margin：按照父元素的宽来计算的
 - padding：按照父元素的宽来计算的
-- translate：是按照本身的宽���计算的
+- translate：是按照本身的宽高计算的
 
 
 # 56. display: inline-block元素之间有间隙
@@ -2213,8 +2429,8 @@ HTTPS由两部分组成：HTTP + SSL/TLS，也就是在HTTP上又加了一层处
 2. 然后和解密出来的那份摘要进行对比，如果内容完整，则说明没有被篡改。客户端就可以从证书中拿到服务器的公钥和服务器进行安全的非对称加密通信了。服务器要想获得客户端的公钥也可以通过这个方式
 
 ## 握手过程
-1. 客户端申请https通信
-2. 服务器响应然后向客户端发送数字证书（公钥）
+1. 客户端申请https通信发送一个随机数，还有加密方法
+2. 服务器响应然后向客户端发送数字证书（公钥）还有随机数给客户端
 3. 客户端TLS验证证书，拿到公钥，如果没有问题就生成一个随机值，然后用公钥加密传给服务器
 4. 服务器收到后用私钥解密，拿到了对称密钥，之后可以通过这个密钥进行信息传输了，然后建立SSL连接通道
 5. 共享密钥交换成功，客户端和服务端开始加密通信
@@ -2459,11 +2675,12 @@ js采用IEEE 754的双精度标准来进行计算，如果他碰到无法整除�
 - 服务器会占用更多的内存
 
 # 70. 前端路由的原理
-- hash模式，后面带了个#，无论hash值怎么变，服务端都只会收到#号前的url
-- history模式，主要使用history.pushState和history.replaceState来改变URL，改变url只会更新浏览器的历史记录，不会引起页面更新
+- hash模式，后面带了个#，无论hash值怎么变，服务端都只会收到#号前的url,通过监听`hashchange`事件，根据hash来切换页面
+- history模式，主要使用history.pushState和history.replaceState来改变URL，改变url只会更新浏览器的历史记录，不会引起页面更新，通过监听`popstate`来改变页面内容，同时禁止a标签的默认事件。
 
 hash模式不需要后端配置，兼容性好，history模式需要后端配置才能使用
 
+> https://www.cnblogs.com/jcxfighting/p/11664231.html
 
 # 71. Mobx原理
 ![image](https://upload-images.jianshu.io/upload_images/1935872-a178011f056dd088.png)
@@ -2487,6 +2704,7 @@ Mobx是同步运行的，有2个好处
 - 不会获得旧的衍生
 - 追踪堆栈会更简单
 
+主要利用一个`autoRun`，这个函数可以让被我们用到的属性改变时候触发回调，而没被使用的属性发生改变则不会发生回调。
 
 # 72. Object.create()实现原理
 其实就是新建一个对象，然后覆盖对象的原型为传入的原型对象(类似继承)
@@ -2536,6 +2754,17 @@ js的async加载还有defer加载都不阻塞页面渲染还有资源加载
 - css会阻塞后续js语句执行
 
 > 如果css后面跟着内嵌js，则会出现阻塞情况，因为浏览器会维持css跟js顺序，样式表必须在嵌入的js之前加载完。
+
+## 加载顺序
+- js在head中会立即执行，阻塞后续资源下载与执行。因为js可能会修改dom，不阻塞的话，dom操作顺序不可控。
+- js的执行依赖css。只有前面的css全部下载完，才会执行js
+
+## 注意
+- css应放在head中，这样可以尽快响应，渲染页面，因为他不会阻塞资源下载
+- js应该放在body底部，让dom尽快渲染出来，避免dom被阻塞
+- css会阻塞js执行，他不会阻塞js下载，但是js会等到css加载玩之后才会执行
+
+> JS 代码在执行前，浏览器必须保证在 JS 之前的所有 CSS 样式都解析完成，不然不就乱套了，前面的 CSS 样式可能会覆盖 JS 文件中定义的元素样式，这是 CSS 阻塞后续 JS 执行的根本原因。
 
 # 76. 隐式转换
 - 数字运算符
@@ -2816,15 +3045,57 @@ tree shaking是用于清除无用代码的方式，webpack3/4开始之后就自�
 
 
 # 89. 怪异盒模型
-- 标准盒模型：宽度 = width + margin + padding + border
+- 标准盒模型：大小 = content + margin + padding + border
+- 怪异盒模型：大小 = width（content + padding + border） + margin
 
-假设现在两个div一行放置，都是50%宽，假如我们再期中一个加上边框，这样另一个就会被挤压
-
-这时候我们可以将box-sizing设置为`border-box
 
 - content-box: 默认，标准盒模型
 - border-box：border和padding算入width中
-- padding-box：padding算入width`
+
+
+```
+    .container {
+      display: flex;
+      width: 200px;
+      height: 50px;
+    }
+
+    .item1 {
+      width: 50%;
+      background: red;
+      border: 10px solid black;
+    }
+
+    .item2 {
+      width: 50%;
+      background: yellow;
+    }
+
+  <div class="container">
+    <div class="item1">1</div>
+    <div class="item2">2</div>
+  </div>
+```
+
+效果如图
+![image](https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1583032018675.png?width=440&height=120&imageView2/1/q/80)
+
+假设现在两个div一行放置，都是50%宽，假如我们再期中一个加上边框，这样另一个就会被挤压
+
+这时候我们可以将box-sizing设置为`border-box`
+```
+.item1 {
+  width: 50%;
+  background: red;
+  border: 10px solid black;
+  box-sizing: border-box;
+}
+```
+![image](https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1583032035826.png?width=410&height=127&imageView2/1/q/80)
+
+挤压的问题就没有啦
+
+
 
 # 90. Object.defineProperty
 ```
@@ -2927,6 +3198,11 @@ http连接具有被动型，只能主动去向服务器请求看有没有新消�
 
 websocket是一个持久化的协议，连接了就不会自动断开。而且传递信息的时候只需要传递一点点头信息即可。一次握手，持久连接
 
+1. 先进行TCP三次握手
+2. TCP连接建立成功后，浏览器通过http协议发送websocket支持的版本号，地址等信息给服务端
+3. 服务端接受后，如果协议版本匹配，数据包格式正确，则接受连接（Upgrade: websocket，Connection：Upgrade）
+4. 浏览器收到回复后，触发onopen事件，就可以通过send发送数据了
+
 
 # 102. hasOwnProperty
 这个方法只会遍历自身属性，不会从原型链上遍历，可以用来判断属性是否在对象上或者是原型链继承来的
@@ -2941,3 +3217,440 @@ Object.prototype.fn = function(){
 obj.hasOwnProperty(num) // true
 obj.hasOwnProperty(fn)  // false
 ```
+
+# 103. DNS域名解析
+
+## 域名解析过程
+1. 检查浏览器缓存中有没有该域名的ip地址
+2. 检查本机缓存中有没有该域名的ip地址
+3. 向本地域名解析服务系统（LDNS）发起域名解析请求
+4. 向根域名解析服务器发起域名解析请求
+5. 根域名服务器返回gTLD域名解析服务器地址
+6. 向gTLD服务器发起解析请求
+7. gTLD服务器返回Name Server服务器
+8. Name Server服务器返回IP地址给本地服务器
+9. 本地域名服务器缓存解析结果
+10. 返回解析结果给用户
+
+## 域名解析方式
+- A记录：A代表`address`，用来指定域名对应的ip地址
+- MX记录：可以将某个域名下的邮件服务器指向自己的Mail Server
+- CNAME记录：别名解析，可以将指定域名解析到其他域名上
+- NS记录：为某个域名指定特定的DNS服务器去解析
+- TXT记录：为某个主机名或域名设置指定的说明
+
+
+# 104. JWT原理
+使用`JWT`服务器就不需要保存session数据了，更容易扩展
+
+## 数据结构
+由三部分组成，中间以`.`分隔
+- header
+- payload
+- signature
+
+### header
+```
+{
+    "alg": "HS256",
+    "typ": "JWT"
+}
+```
+alg代表算法，typ代表类型，最后用base64编码转换一下变成字符串
+
+### payload
+除了官方给的字段，我们还可以自定义字段，例如:
+```
+{
+    "name": "bb",
+    "age" : 21
+}
+```
+
+### signature
+这是一个签名，用于防止前面的数据被篡改
+
+我们需要自定义一个 **密钥** ，不能给用户知道，然后生成签名
+
+## 使用方式及特点
+### 使用方式
+- 客户端收到后可以存入cookie或localStorage
+- 每次请求时候可以在自定义请求头加上`Authorization`
+
+### 特点
+- 默认不加密，可以自己通过密钥再加密一下
+- 不能保存session状态，在有效期前一直有效
+- 尽量使用https防止泄露
+
+
+
+# 105. 什么是DOCTYPE及其作用
+DOCTYPE是用来声明文档类型和DTD规范的。主要用于验证文件合法性。如果要提高浏览器的兼容性，需要设置一下`<!DOCTYPE>`
+
+
+
+# 106. koa原理
+koa是基于express来开发出来的，但是他更简洁，自由度更高，十分轻量。功能都通过插件来实现，这种拔插式的架构设计模式，很符合unix哲学
+
+koa2不在使用generator，而是采用了async/await
+
+## 与 express 的区别
+express：
+- 整合了更多功能
+- 但是回调函数十分不便
+
+koa：
+- 使用async/await更加方便
+- 需要自己配置插件中间件等
+
+## 结构
+
+### application.js
+这个是入口文件，继承了events可以执行事件监听还有触发事件。
+- listen是通过对http.createServer的封装，传入一个回调函数，包含了中间件、上下文还有res等
+- use是收集中间件，将多个中间件放进缓存队列中，用koa-compose组合
+
+
+### context.js
+这个就是koa的应用上下文ctx了，可以通过他来访问请求头啊设置响应头等等
+
+### request/response.js
+对原生的req,res等做一下封装，可以在这里取到headers设置headers/body等
+
+## 洋葱模型
+```
+app.use(async (ctx, next) => {
+    console.log(1);
+    await next();
+    console.log(6);
+});
+
+app.use(async (ctx, next) => {
+    console.log(2);
+    await next();
+    console.log(5);
+});
+
+app.use(async (ctx, next) => {
+    console.log(3);
+    ctx.body = "hello world";
+    console.log(4);
+});
+```
+输出 1 2 3 4 5 6  
+
+意思就是说，先从上到下执行完`await next()`之前的内容，然后再从下到上执行`await next()`之后的内容  
+
+koa通过use函数，吧中间件push到队列中，洋葱模型可以让所有中间件依次执行，每执行完一次，就通过`next()`传递ctx参数
+
+`next()`就相当于一个接力棒，将参数等传递给下一个中间件。只需要执行一下next就可以将之后的中间件都执行了！
+
+> 不同于express框架，修改响应需要等请求结束之后，但用koa就可以将修改响应的代码放到next后面就可以了
+
+前期处理 -> 交给并等待其他中间件处理 -> 后期处理
+
+
+# 107. babel基本原理
+## 什么是babel
+babel是一个js的编译器，用来将代码转换成兼容浏览器运行的代码
+- 语法转换
+- 通过polyfill的方式添加缺失的特性
+- js源码转换
+
+## babel基本原理
+核心就是AST抽象语法树。
+1. parsing（解析）：首先将源码转成抽象语法树，词法分析，语法分析
+2. transforming（转换）：将抽象语法树处理生成新的语法树
+3. generating（生成）：将新的语法树生成js代码
+
+![image](https://user-gold-cdn.xitu.io/2020/3/1/170949352d2ba854?imageslim)
+
+# 108. npm版本号
+## 版本号
+版本号分为X.Y.Z三位
+- 大变动，向下不兼容，需要更新X
+- 增加功能，向下兼容，更新Y
+- 修复bug，更新Z
+
+## 具体符号
+- ~: 大约匹配，固定Y，Z随意变动
+- ^: 兼容某个版本，固定X, Y, Z变动
+- x: 任意版本，例如`1.x.2`，就可以是`1.4.2`, `1.8.2`
+
+# 109. git rebase 和 merge
+- rebase:会取消分支的每一个提交，然后更新到最新分支，找到两个分支第一个相同的提交，然后提取之后所有记录，添加到目标分支的后面，
+- merge: 将两个分支，合并提交为一个分支，并且提交两个commit。新建一个commit对象，吧两个分支以前的记录都指向新commit对象，会保留之前所有的commit
+
+
+# 110. React-Router 原理
+主要依赖的是`history`库。
+
+顶层router监听history，history发生变化的时候，router调用setState把location向下传递。设置到RouterContext。router根据RouterContext决定是否显示。
+
+Link标签禁用a标签的默认事件，调用history.push方法来改变url。
+
+
+# 111. document.readyState
+- loading：dom还在加载
+- interactive：dom加载完了，但是图片，css等还在加载
+- complete：全部加载完了
+
+
+# 112. symbol
+symbol函数会返回symbol类型的值，他不支持new。
+
+- 解决属性名冲突
+- 私有属性
+
+
+
+# 113. Samsite cookie
+cookie的属性`SameSite`有三个值
+- strict：完全禁止第三方cookie，跨站点时，任何情况都不会发送cookie。
+- lax：大多数情况禁止第三方cookie，但是导航到目标网址的get请求除外（例如a标签，预加载请求，get表单）
+- none：关闭samesite属性，但必须设置`secure`才能生效
+
+
+
+# 114. async 和 promise的区别
+- 更加简洁
+- 可以使用try/catch来进行错误处理
+- 可以很方便的使用中间值传递给下一个promise，不需要像promise那样一直then
+- 容易追踪错误，报错会具体到哪一行
+
+
+# 115. import 和 require如何在浏览器实现
+## import
+需要用babel进行转换，转换成commonJS规范
+
+### export
+
+例如`export default`会被转换成`exports.default`
+```
+// babel编译前
+export default {}
+
+// babel编译后
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {};
+/*
+* exports
+* {default: {} , __esModule: true}
+*/
+```
+
+### import
+使用`_interopRequireDefault`来处理一遍，为了兼容和区分commonjs和es6
+```
+// babel编译前
+import Test, {msg, fn} from 'test'
+
+// babel编译后
+'use strict';
+
+var _test = require('test');
+
+var _test2 = _interopRequireDefault(_test);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+```
+
+> webpack中会为`import`和`export`添加一个`__esModule: true`的标识，来标记这是es6的东东
+
+# 116. target 和 currentTarget的区别
+- target：返回触发事件的源对象
+- currentTarget：返回事件绑定的对象
+```
+  document.getElementById('test').addEventListener('click', function (e) {
+    console.log(e.target)
+    console.log(e.currentTarget)
+  })
+
+  <div id="test">
+    <button>1</button>
+  </div>
+```
+
+
+
+# 117. 为什么javascript是单线程的
+- 防止dom渲染冲突的问题
+- html5中的web worker可以实现多线程
+
+
+# 118. DNS预解析
+- html源码下载完后，会解析页面包含的链接的标签，提前查询对应的域名
+- 对访问过的页面，会记录一个域名列表，再次打开下载html的时候会同时解析DNS
+
+```
+预解析某域名
+<link rel="dns-prefetch" href="//img.alicdn.com">
+
+强制开启HTTPS下的DNS预解析
+<meta http-equiv="x-dns-prefetch-control" content="on">
+```
+
+
+# 119. 什么是bundle、chunk、module
+- bundle是指webpack打包出来的文件
+- chunk是指webpack进行模块依赖分析的时候，代码分隔出来的代码块
+- module是开发中的单个模块
+
+
+# 120. 什么是loader、plugin
+- loader是webpack可以加载解析非js文件的能力
+- plugin可以扩展webpack得功能，更加灵活。
+
+
+# 121. 组件懒加载原理
+- 例如`react-loadable`主要利用`import()`来返回一个promise的性质，进行loading的异步操作。
+- webpack通过`require.ensure()`来实现按需加载
+
+## require.ensure
+`require.ensure(dependencies,callback,errorCallback,chunkName)`他会返回一个`promise`，先是判断`dependencies`是否被加载过，加载过则获取缓存值。没有的话就生成一个`promise`，然后缓存起来。接着生成一个`script`标签，填充好信息放到html文件上，就完成了按需加载了。
+
+> require.ensure可以自定义文件名
+
+# 122. HTML5离线缓存
+利用`manifest`属性，当浏览器发现头部有`manifest`属性，就会请求manifest文件，如果是第一次，则根据文件内容下载响应的资源。如果已经离线缓存过了，则直接使用离线的资源加载。
+
+# 123. 点击劫持，如何防范
+攻击者通过iframe嵌套的方式，将iframe设为透明，诱导用户点击。
+
+**可以通过http头设置`X-FRAME-OPTIONS`来防御iframe嵌套的点击劫持攻击**
+
+
+# 124. 观察者模式 与 发布订阅模式
+## 观察者模式
+```
+  function Subject() {
+    this.state = 0
+    this.observers = []
+  }
+  Subject.prototype.attach = function (observer) {
+    this.observers.push(observer)
+  }
+  Subject.prototype.getState = function () {
+    return this.state
+  }
+  Subject.prototype.setState = function (state) {
+    this.state = state
+    this.noticefyAllObservers()
+  }
+  Subject.prototype.noticefyAllObservers = function () {
+    this.observers.forEach(observer => {
+      observer.update()
+    })
+  }
+
+  function Observer(name, subject) {
+    this.name = name
+    this.subject = subject
+    this.subject.attach(this)
+  }
+  Observer.prototype.update = function () {
+    console.log(this.name, this.subject.getState())
+  }
+
+  const subject = new Subject()
+  const o1 = new Observer('o1', subject)
+  const o2 = new Observer('o2', subject)
+  const o3 = new Observer('o3', subject)
+
+  subject.setState(1)
+  subject.setState(2)
+  subject.setState(3)
+```
+
+## 发布订阅模式
+```
+  function Event() {
+    this.events = {}
+  }
+  Event.prototype.on = function (event, fn) {
+    if (!this.events[event]) {
+      this.events[event] = []
+    }
+    this.events[event].push(fn)
+  }
+  Event.prototype.emit = function (event) {
+    const args = [...arguments].splice(1)
+    this.events[event].forEach(fn => {
+      fn.apply(this, args)
+    })
+  }
+  Event.prototype.off = function (event, fn) {
+    const currentEvent = this.events[event]
+    this.events[event] = currentEvent.filter(item => item !== fn)
+  }
+
+  const publisher = new Event()
+  const fn1 = function (e) {
+    console.log('a1')
+    console.log(e)
+  }
+  const fn2 = function (e) {
+    console.log('a2')
+    console.log(e)
+  }
+  publisher.on('a', fn1)
+  publisher.on('a', fn2)
+  publisher.emit('a', 'aowu')
+  publisher.off('a', fn2)
+  publisher.emit('a', 'aowu')
+```
+
+## 区别
+- 观察者模式，观察者是知道subject的，发布订阅模式中，发布者跟订阅者不知道对方的存在，只有通过消息代理进行通信
+- 观察者模式大多是同步的，发布订阅大多是异步的
+- 发布订阅模式大多是松散耦合的，观察者反之
+
+
+# 128. nginx负载均衡
+> https://www.cnblogs.com/alterem/p/11490367.html
+> https://www.jianshu.com/p/4c250c1cd6cd
+
+
+# 129. redis
+> https://www.imweb.io/topic/584412459be501ba17b10a7b
+
+
+# 130. Set,Map,WeakSet,WeakMap
+- Set：可以遍历，元素唯一
+- WeakSet：元素都是对象，元素都是弱引用，可以被垃圾回收，不容易造成内存泄露，不能遍历
+- Map：键值对，可以遍历
+- WeakMap：键名为对象，键名是弱引用，不能遍历
+
+
+# 131. token 与 cookie的区别
+## token
+- 加密解密时间较长，占用内存大
+- 不仅仅支持浏览器，还支持移动端等
+- 可以防止crsf攻击
+- token是无状态的，很好扩展
+
+## cookie
+- 自动发送，方便
+- app端无法使用cookie
+- 不在https中使用容易遭受crsf攻击
+
+
+
+# 132. null 与 undefined
+- null：对象类型，是对象原型链的终点，已定义，为空值
+- undefined：表示没有赋值，undefined类型，未被定义
+
+
+# 133. react中使用persist
+react的合成事件调用之后全都会被重用，所有属性都无效了，如果要异步访问的话，就要用`event.persist()`，这样就会从事件池里面删除，允许保留事件的引用
+
+
+# 134. position: relative会影响子元素offsetLeft等属性
+
+
+
+# 135. 
